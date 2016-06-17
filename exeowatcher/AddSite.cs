@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace exeowatcher
@@ -7,14 +8,41 @@ namespace exeowatcher
     {
 
         MainForm main;
+        string site;
+        List<string> pages;
+        bool typeForm;          // 0(false) - add , 1(true) - edit
+
+        int indexSites;
+        int indexListView;
 
         public AddSite()
         {
+            typeForm = false;
+            pages = new List<string>();
             InitializeComponent();
         }
+        public AddSite(string site, List<string> pages,int indexSites, int indexListView)
+        {
+            typeForm = true;
+            this.site = site;
+            this.pages = pages;
+            this.indexSites = indexSites;
+            this.indexListView = indexListView;
+            InitializeComponent();
+        }
+
         private void AddSite_Load(object sender, EventArgs e)
         {
             main = this.Owner as MainForm;
+            if(typeForm)
+            {
+                txtBoxSite.Text = site;
+                for(int i = 0; i < pages.Count; i++)
+                {
+                    listBoxPages.Items.Add(pages[i]);
+                }
+                pages = new List<string>();
+            }
         }
 
         private void txtBoxSite_TextChanged(object sender, EventArgs e)
@@ -78,10 +106,28 @@ namespace exeowatcher
                 return;
             }
 
-            if (main != null)
-                main.AddSite(txtBoxPage.Text);
-            else
+
+            for(int i = 0; i < listBoxPages.Items.Count; i++)
+            {
+                pages.Add(listBoxPages.Items[i].ToString());
+            }
+
+
+            if (main == null)
+            {
                 MessageBox.Show("NULL main form");
+                return;
+            }
+
+            if (!typeForm)
+            {
+                main.AddSite(txtBoxPage.Text, pages);
+            }
+            else
+            {
+                main.EditSite(txtBoxPage.Text, pages, indexSites, indexListView);
+            }
+            this.Close();
         }
 
         private bool checkValidUrl(string uri)
