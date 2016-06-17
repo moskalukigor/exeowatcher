@@ -11,6 +11,7 @@ using System.Web;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 using DiffMatchPatch;
 
 namespace exeowatcher
@@ -21,6 +22,7 @@ namespace exeowatcher
         const bool prevScanB = false;
         const bool currScanB = true;
 
+        private List<classes.Site> sites = new List<classes.Site>();
 
         public MainForm()
         {
@@ -213,9 +215,94 @@ namespace exeowatcher
         }
 
 
-        public void AddSite(string site)
+        public void AddSite(string site, List<string> pages)
         {
-            listViewSites.Items.Add(new ListViewItem(new string[] { "test", "AJ", "22" }));
+            sites.Add(new classes.Site(site, new DateTime(1990, 01, 01), pages.Count, pages));
+            listViewSites.Items.Add(new ListViewItem(new string[] { site, "не сканировался", pages.Count.ToString(), "X", "X", "X", "X", "X", "X", "X", }));
+        }
+
+        public void EditSite(string site, List<string> pages, int indexSites, int indexListView)
+        {
+            sites[indexSites] = new classes.Site(site, new DateTime(1990, 01, 01), pages.Count, pages);
+            listViewSites.Items[indexListView] = (new ListViewItem(new string[] { site, "не сканировался", pages.Count.ToString(), "X", "X", "X", "X", "X", "X", "X", }));
+        }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            if(listViewSites.Items.Count == 0)
+            {
+                MessageBox.Show("Добавьте хотя бы один сайт.");
+                return;
+            }
+            if(listViewSites.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Отметьте галочкой хотя бы один сайт");
+            }
+            
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (listViewSites.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Отметьте галочкой один сайт");
+                return;
+            }
+
+            for (int i = 0; i < listViewSites.Items.Count; i++)
+            {
+                if(listViewSites.Items[i].Checked)
+                {
+
+                    for (int j = 0; j < sites.Count; j++)
+                    {
+                        if (sites[j].site == listViewSites.Items[i].Text)
+                        {
+                            sites.RemoveAt(j);
+                        }
+                    }
+
+                    listViewSites.Items[i].Remove();
+                }       
+            }
+            
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            if (listViewSites.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Отметьте галочкой один сайт");
+                return;
+            }
+            if (listViewSites.CheckedItems.Count > 1)
+            {
+                MessageBox.Show("Отметьте галочкой всего лишь один сайт");
+                return;
+            }
+
+            for (int i = 0; i < listViewSites.Items.Count; i++)
+            {
+                if (listViewSites.Items[i].Checked)
+                {
+                    for(int j = 0; j < sites.Count; j++)
+                    {
+                        if (sites[j].site == listViewSites.Items[i].Text)
+                        {
+
+                            int indexSites = j;
+                            int indexListView = i;
+
+
+                            AddSite addSiteForm = new AddSite(sites[j].site, sites[j].pages, indexSites, indexListView);
+                            addSiteForm.Owner = this;
+                            addSiteForm.Show();
+                        }
+                    }
+                    
+                }
+            }
+
         }
     }
 }
