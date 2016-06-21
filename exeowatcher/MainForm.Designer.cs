@@ -29,15 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.btnScan = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.btnCheck = new System.Windows.Forms.Button();
-            this.txtBoxSite = new System.Windows.Forms.TextBox();
-            this.lblPrevScan = new System.Windows.Forms.Label();
-            this.lblCurScan = new System.Windows.Forms.Label();
-            this.lblResult = new System.Windows.Forms.Label();
-            this.txtBoxCurrScan = new System.Windows.Forms.TextBox();
-            this.txtBoxPrevScan = new System.Windows.Forms.TextBox();
             this.richTxtResult = new System.Windows.Forms.RichTextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,6 +46,7 @@
             this.помощьПроектуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnAdd = new System.Windows.Forms.Button();
             this.picBoxExeoLogo = new System.Windows.Forms.PictureBox();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
@@ -66,108 +58,20 @@
             this.colPages = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colTitle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.colContent = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colKeyword = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colContent = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colTagP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colTagB = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colTagH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxExeoLogo)).BeginInit();
             this.SuspendLayout();
             // 
-            // btnScan
-            // 
-            this.btnScan.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(82)))), ((int)(((byte)(82)))));
-            this.btnScan.Location = new System.Drawing.Point(3, 17);
-            this.btnScan.Name = "btnScan";
-            this.btnScan.Size = new System.Drawing.Size(118, 23);
-            this.btnScan.TabIndex = 0;
-            this.btnScan.Text = "Scan";
-            this.btnScan.UseVisualStyleBackColor = false;
-            this.btnScan.Click += new System.EventHandler(this.btnScan_Click);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.btnCheck);
-            this.panel1.Controls.Add(this.txtBoxSite);
-            this.panel1.Controls.Add(this.btnScan);
-            this.panel1.Location = new System.Drawing.Point(12, 396);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(124, 380);
-            this.panel1.TabIndex = 1;
-            // 
-            // btnCheck
-            // 
-            this.btnCheck.Location = new System.Drawing.Point(3, 73);
-            this.btnCheck.Name = "btnCheck";
-            this.btnCheck.Size = new System.Drawing.Size(118, 23);
-            this.btnCheck.TabIndex = 2;
-            this.btnCheck.Text = "Check equal";
-            this.btnCheck.UseVisualStyleBackColor = true;
-            this.btnCheck.Click += new System.EventHandler(this.btnCheck_Click);
-            // 
-            // txtBoxSite
-            // 
-            this.txtBoxSite.Location = new System.Drawing.Point(4, 47);
-            this.txtBoxSite.Name = "txtBoxSite";
-            this.txtBoxSite.Size = new System.Drawing.Size(117, 20);
-            this.txtBoxSite.TabIndex = 1;
-            this.txtBoxSite.Text = "http://test.exeo.local/";
-            // 
-            // lblPrevScan
-            // 
-            this.lblPrevScan.AutoSize = true;
-            this.lblPrevScan.Location = new System.Drawing.Point(143, 397);
-            this.lblPrevScan.Name = "lblPrevScan";
-            this.lblPrevScan.Size = new System.Drawing.Size(55, 13);
-            this.lblPrevScan.TabIndex = 4;
-            this.lblPrevScan.Text = "Prev scan";
-            // 
-            // lblCurScan
-            // 
-            this.lblCurScan.AutoSize = true;
-            this.lblCurScan.Location = new System.Drawing.Point(291, 397);
-            this.lblCurScan.Name = "lblCurScan";
-            this.lblCurScan.Size = new System.Drawing.Size(67, 13);
-            this.lblCurScan.TabIndex = 5;
-            this.lblCurScan.Text = "Current scan";
-            // 
-            // lblResult
-            // 
-            this.lblResult.AutoSize = true;
-            this.lblResult.Location = new System.Drawing.Point(434, 397);
-            this.lblResult.Name = "lblResult";
-            this.lblResult.Size = new System.Drawing.Size(50, 13);
-            this.lblResult.TabIndex = 7;
-            this.lblResult.Text = "RESULT";
-            // 
-            // txtBoxCurrScan
-            // 
-            this.txtBoxCurrScan.Location = new System.Drawing.Point(294, 416);
-            this.txtBoxCurrScan.Multiline = true;
-            this.txtBoxCurrScan.Name = "txtBoxCurrScan";
-            this.txtBoxCurrScan.ReadOnly = true;
-            this.txtBoxCurrScan.Size = new System.Drawing.Size(137, 360);
-            this.txtBoxCurrScan.TabIndex = 3;
-            this.txtBoxCurrScan.WordWrap = false;
-            // 
-            // txtBoxPrevScan
-            // 
-            this.txtBoxPrevScan.Location = new System.Drawing.Point(142, 416);
-            this.txtBoxPrevScan.Multiline = true;
-            this.txtBoxPrevScan.Name = "txtBoxPrevScan";
-            this.txtBoxPrevScan.ReadOnly = true;
-            this.txtBoxPrevScan.Size = new System.Drawing.Size(146, 360);
-            this.txtBoxPrevScan.TabIndex = 2;
-            this.txtBoxPrevScan.WordWrap = false;
-            // 
             // richTxtResult
             // 
             this.richTxtResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTxtResult.Location = new System.Drawing.Point(437, 416);
+            this.richTxtResult.Location = new System.Drawing.Point(447, 204);
             this.richTxtResult.Name = "richTxtResult";
             this.richTxtResult.ReadOnly = true;
             this.richTxtResult.Size = new System.Drawing.Size(367, 360);
@@ -316,6 +220,16 @@
             this.panel2.Size = new System.Drawing.Size(804, 66);
             this.panel2.TabIndex = 10;
             // 
+            // btnAdd
+            // 
+            this.btnAdd.Location = new System.Drawing.Point(218, 14);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(73, 35);
+            this.btnAdd.TabIndex = 6;
+            this.btnAdd.Text = "Добавить";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
             // picBoxExeoLogo
             // 
             this.picBoxExeoLogo.Cursor = System.Windows.Forms.Cursors.Default;
@@ -384,7 +298,7 @@
             this.colTagH});
             this.listViewSites.Location = new System.Drawing.Point(0, 99);
             this.listViewSites.Name = "listViewSites";
-            this.listViewSites.Size = new System.Drawing.Size(816, 283);
+            this.listViewSites.Size = new System.Drawing.Size(816, 99);
             this.listViewSites.TabIndex = 11;
             this.listViewSites.UseCompatibleStateImageBehavior = false;
             this.listViewSites.View = System.Windows.Forms.View.Details;
@@ -412,15 +326,15 @@
             // 
             this.colDescription.Text = "Desc";
             // 
-            // colContent
-            // 
-            this.colContent.DisplayIndex = 5;
-            this.colContent.Text = "Cont";
-            // 
             // colKeyword
             // 
             this.colKeyword.DisplayIndex = 6;
             this.colKeyword.Text = "Keyw";
+            // 
+            // colContent
+            // 
+            this.colContent.DisplayIndex = 5;
+            this.colContent.Text = "Cont";
             // 
             // colTagP
             // 
@@ -434,16 +348,6 @@
             // 
             this.colTagH.Text = "h1-h6";
             // 
-            // btnAdd
-            // 
-            this.btnAdd.Location = new System.Drawing.Point(218, 14);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(73, 35);
-            this.btnAdd.TabIndex = 6;
-            this.btnAdd.Text = "Добавить";
-            this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -453,21 +357,13 @@
             this.Controls.Add(this.listViewSites);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.richTxtResult);
-            this.Controls.Add(this.lblResult);
-            this.Controls.Add(this.lblCurScan);
-            this.Controls.Add(this.lblPrevScan);
-            this.Controls.Add(this.txtBoxCurrScan);
-            this.Controls.Add(this.txtBoxPrevScan);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "ExeoWatcher";
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -478,16 +374,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnScan;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label lblPrevScan;
-        private System.Windows.Forms.Label lblCurScan;
-        private System.Windows.Forms.TextBox txtBoxSite;
-        private System.Windows.Forms.Button btnCheck;
-        private System.Windows.Forms.Label lblResult;
-        private System.Windows.Forms.TextBox txtBoxCurrScan;
-        private System.Windows.Forms.TextBox txtBoxPrevScan;
         private System.Windows.Forms.RichTextBox richTxtResult;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;

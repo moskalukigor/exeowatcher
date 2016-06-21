@@ -14,29 +14,28 @@ using System.Windows.Forms;
 
 using DiffMatchPatch;
 
+
 namespace exeowatcher
 {
     public partial class MainForm : Form
     {
 
-        const bool prevScanB = false;
-        const bool currScanB = true;
 
         private List<classes.Site> sites = new List<classes.Site>();
+        private string twoFileSuffix = "_2";
 
         public MainForm()
         {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
             menuStrip1.Renderer = new ToolStripProfessionalRenderer(new classes.ColorMenuStrip());
         }
 
-        private List<string> getHTML()
+        private List<string> getHTML(string urlAddress)
         {
-            string urlAddress = txtBoxSite.Text;
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(urlAddress);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
@@ -69,48 +68,107 @@ namespace exeowatcher
             return null;
         }
 
-
-        private void btnScan_Click(object sender, EventArgs e)
+        private void fillSiteHtmlToFile(string urlAddress)
         {
-            List<string> content = getHTML();
-            if(content == null)
+            List<string> content = getHTML(urlAddress);
+
+            int index = sites.FindIndex(x => x.site == urlAddress);
+            string fileName = deleteInvalidChars(sites[index].site);
+
+
+            if (content == null)
             {
-                MessageBox.Show("Error");
+                MessageBox.Show("Site: " + urlAddress + "\terror scan");
                 return;
             }
-                
 
-            if (txtBoxPrevScan.Text == "")
-            {
-                writeToFile(content, prevScanB);
-                txtBoxPrevScan.Text = ListToStr(readFromFile(prevScanB));                        //TextBox
-                
-            }
-            else if (txtBoxCurrScan.Text != "")
-            {
-                writeToFile(readFromFile(currScanB), prevScanB);
-                writeToFile(content, currScanB);
 
-                txtBoxPrevScan.Text = ListToStr(readFromFile(currScanB));              //TextBox
-                txtBoxCurrScan.Text = ListToStr(readFromFile(prevScanB));                          //TextBox
-
-                
-            }
-            else
+            switch(checkEmptyFile(fileName))
             {
-                writeToFile(content, currScanB);
-                txtBoxCurrScan.Text = ListToStr(readFromFile(currScanB));                          //TextBox
+                case "NotExist":
+                        writeToFile(content, fileName);
+                    break;
+
+                case "Empty":
+                        writeToFile(content, fileName);
+                    break;
+
+                case "TwoFileNotExist":
+                        writeToFile(content, fileName + twoFileSuffix);
+                        compareCode(fileName);
+                    break;
+
+                case "TwoFileEmpty":
+                        writeToFile(content, fileName + twoFileSuffix);
+                        compareCode(fileName);
+                    break;
+
+                case "TwoFileNotEmpty":
+                        writeToFile(readFromFile(fileName + twoFileSuffix), fileName);
+                        writeToFile(content, fileName + twoFileSuffix);
+                        compareCode(fileName);
+                    break;
             }
         }
 
-        public void compareCode(string originalText, string verifiableText)
+
+        public void updateStatusSite(int indexList, int indexSite)
+        {
+            listViewSites.Items[indexList] = (new ListViewItem(new string[] { sites[indexSite].site, DateTime.Now.ToString() , sites[indexSite].pages.Count.ToString(), "X", "X", "X", "X", "X", "X", "X", }));
+        }
+
+        public string checkEmptyFile(string fileName)
+        {
+            string result = "";
+
+            if (!(new FileInfo(fileName + ".txt").Exists))
+            {
+                result = "NotExist";
+                return result;
+            }
+
+            if (new FileInfo(fileName + ".txt").Length == 0)
+            {
+                result = "Empty";
+                return result;
+            }
+
+            if (!(new FileInfo(fileName + twoFileSuffix + ".txt").Exists))
+            {
+                result = "TwoFileNotExist";
+                return result;
+            }
+
+            if (new FileInfo(fileName + twoFileSuffix + ".txt").Length == 0)
+            {
+                result = "TwoFileEmpty";
+                return result;
+            }
+            else
+            {
+                result = "TwoFileNotEmpty";
+                return result;
+            }
+
+            return result;
+        }
+
+        public string deleteInvalidChars(string fileName)
+        {
+            char[] charInvalidFileChars = Path.GetInvalidFileNameChars();
+            foreach (char charInvalid in charInvalidFileChars)
+            {
+                fileName = fileName.Replace(charInvalid, ' ');
+            }
+
+            return fileName;
+        }
+
+        public void compareCode(string fileName)
         {
 
-            List<string> prevText = readFromFile(prevScanB);
-            List<string> currText = readFromFile(currScanB);
-
-
-
+            List<string> prevText = readFromFile(fileName);
+            List<string> currText = readFromFile(fileName + twoFileSuffix);
 
           
             var dmp = new diff_match_patch();
@@ -122,9 +180,9 @@ namespace exeowatcher
             {
                 switch(dl[i].operation)
                 {
-                    case DiffMatchPatch.Operation.EQUAL:
+                    /*case DiffMatchPatch.Operation.EQUAL:
                             AppendText(this.richTxtResult, Color.Empty, dl[i].text);
-                        break;
+                        break;*/
                     case DiffMatchPatch.Operation.INSERT:
                             AppendText(this.richTxtResult, Color.Green, dl[i].text);
                         break;
@@ -149,29 +207,9 @@ namespace exeowatcher
             box.SelectionLength = 0; // clear
         }
 
-        private void btnCheck_Click(object sender, EventArgs e)
+        private void writeToFile(List<string> content, string fileName)
         {
-            string originalText = txtBoxPrevScan.Text;
-            string verifiableText = txtBoxCurrScan.Text;
-            compareCode(originalText, verifiableText);
-
-            int coincidence2 = originalText.Where(x => verifiableText.Contains(x)).Count();
-
-            if (coincidence2 > 0)
-                MessageBox.Show(coincidence2.ToString());
-        }
-
-
-        private void writeToFile(List<string> text, bool TypeScan)
-        {
-            string TypeScanText = "";
-
-            if (!TypeScan)
-                TypeScanText = "prevScan";
-            else
-                TypeScanText = "currScan";
-
-            File.WriteAllLines(TypeScanText + ".txt", text);
+            File.WriteAllLines(fileName + ".txt", content);
         }
 
         private static string ListToStr(List<string> array)
@@ -186,25 +224,27 @@ namespace exeowatcher
         }
 
 
-        private static List<string> readFromFile(bool TypeScan)
+        private static List<string> readFromFile(string fileName)
         {
-            string TypeScanText = "";
-
-            if (!TypeScan)
-                TypeScanText = "prevScan";
-            else
-                TypeScanText = "currScan";
-
 
             List<string> listLines = new List<string>();
 
-            using (StreamReader sr = new StreamReader(File.Open(TypeScanText + ".txt", FileMode.Open)))
+            using (StreamReader sr = new StreamReader(File.Open(fileName + ".txt", FileMode.Open)))
             {
                 while (!sr.EndOfStream)
                     listLines.Add(sr.ReadLine());
             }
            
             return listLines;
+        }
+
+        private DateTime getFileName(int index)
+        {
+            DateTime result;
+
+            result = sites[index].latestScan;
+
+            return result;
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -234,11 +274,24 @@ namespace exeowatcher
                 MessageBox.Show("Добавьте хотя бы один сайт.");
                 return;
             }
+
             if(listViewSites.CheckedItems.Count == 0)
             {
-                MessageBox.Show("Отметьте галочкой хотя бы один сайт");
+                MessageBox.Show("Отметьте галочкой сайты, которые хотите просканировать");
+                return;
             }
-            
+
+
+
+            for(int i = 0; i < sites.Count; i++)
+            {
+                for(int j = 0; j < sites[i].pages.Count; j++)
+                {
+                    fillSiteHtmlToFile(sites[i].pages[j]);
+                }
+            }
+
+
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -304,5 +357,7 @@ namespace exeowatcher
             }
 
         }
+
+
     }
 }
