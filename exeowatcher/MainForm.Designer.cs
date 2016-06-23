@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.richTxtResult = new System.Windows.Forms.RichTextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.создатьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,28 +63,15 @@
             this.colTagP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colTagB = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colTagH = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.TEXT2 = new System.Windows.Forms.RichTextBox();
-            this.TEXT1 = new System.Windows.Forms.RichTextBox();
-            this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.удалитьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.showCompareToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.удалитьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxExeoLogo)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // richTxtResult
-            // 
-            this.richTxtResult.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTxtResult.Location = new System.Drawing.Point(546, 204);
-            this.richTxtResult.Name = "richTxtResult";
-            this.richTxtResult.ReadOnly = true;
-            this.richTxtResult.Size = new System.Drawing.Size(258, 350);
-            this.richTxtResult.TabIndex = 8;
-            this.richTxtResult.Text = "";
-            this.richTxtResult.WordWrap = false;
             // 
             // menuStrip1
             // 
@@ -308,7 +294,7 @@
             this.listViewSites.ContextMenuStrip = this.contextMenuStrip1;
             this.listViewSites.Location = new System.Drawing.Point(0, 99);
             this.listViewSites.Name = "listViewSites";
-            this.listViewSites.Size = new System.Drawing.Size(816, 99);
+            this.listViewSites.Size = new System.Drawing.Size(816, 462);
             this.listViewSites.TabIndex = 11;
             this.listViewSites.UseCompatibleStateImageBehavior = false;
             this.listViewSites.View = System.Windows.Forms.View.Details;
@@ -358,27 +344,19 @@
             // 
             this.colTagH.Text = "h1-h6";
             // 
-            // TEXT2
+            // contextMenuStrip1
             // 
-            this.TEXT2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.TEXT2.Location = new System.Drawing.Point(273, 204);
-            this.TEXT2.Name = "TEXT2";
-            this.TEXT2.ReadOnly = true;
-            this.TEXT2.Size = new System.Drawing.Size(267, 350);
-            this.TEXT2.TabIndex = 12;
-            this.TEXT2.Text = "";
-            this.TEXT2.WordWrap = false;
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showCompareToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(188, 26);
             // 
-            // TEXT1
+            // showCompareToolStripMenuItem
             // 
-            this.TEXT1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.TEXT1.Location = new System.Drawing.Point(12, 204);
-            this.TEXT1.Name = "TEXT1";
-            this.TEXT1.ReadOnly = true;
-            this.TEXT1.Size = new System.Drawing.Size(255, 350);
-            this.TEXT1.TabIndex = 13;
-            this.TEXT1.Text = "";
-            this.TEXT1.WordWrap = false;
+            this.showCompareToolStripMenuItem.Name = "showCompareToolStripMenuItem";
+            this.showCompareToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.showCompareToolStripMenuItem.Text = "Просмотр различий";
+            this.showCompareToolStripMenuItem.Click += new System.EventHandler(this.showCompareToolStripMenuItem_Click);
             // 
             // удалитьToolStripMenuItem
             // 
@@ -390,31 +368,14 @@
             this.удалитьToolStripMenuItem1.Name = "удалитьToolStripMenuItem1";
             this.удалитьToolStripMenuItem1.Size = new System.Drawing.Size(32, 19);
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showCompareToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(188, 48);
-            // 
-            // showCompareToolStripMenuItem
-            // 
-            this.showCompareToolStripMenuItem.Name = "showCompareToolStripMenuItem";
-            this.showCompareToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-            this.showCompareToolStripMenuItem.Text = "Просмотр различий";
-            this.showCompareToolStripMenuItem.Click += new System.EventHandler(this.showCompareToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(82)))), ((int)(((byte)(82)))));
             this.ClientSize = new System.Drawing.Size(816, 566);
-            this.Controls.Add(this.TEXT1);
-            this.Controls.Add(this.TEXT2);
             this.Controls.Add(this.listViewSites);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.richTxtResult);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -433,7 +394,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.RichTextBox richTxtResult;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem создатьToolStripMenuItem;
@@ -466,8 +426,6 @@
         private System.Windows.Forms.ColumnHeader colTagB;
         private System.Windows.Forms.ColumnHeader colTagH;
         private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.RichTextBox TEXT2;
-        private System.Windows.Forms.RichTextBox TEXT1;
         private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem1;
         private System.Windows.Forms.ListView listViewSites;

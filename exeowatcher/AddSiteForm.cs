@@ -40,7 +40,7 @@ namespace exeowatcher
                 txtBoxSite.Text = site;
                 for(int i = 0; i < pages.Count; i++)
                 {
-                    listBoxPages.Items.Add(pages[i]);
+                    listBoxPages.Items.Add(pages[i].pageName);
                 }
                 pages = new List<Page>();
             }
@@ -126,7 +126,7 @@ namespace exeowatcher
             }
             else
             {
-                main.EditSite(txtBoxPage.Text, pages, indexSites, indexListView);
+                main.EditSite(txtBoxSite.Text, pages, indexSites, indexListView);
             }
             this.Close();
         }

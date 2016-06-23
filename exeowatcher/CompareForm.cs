@@ -11,11 +11,9 @@ namespace exeowatcher
 {
     public partial class CompareForm : Form
     {
-        //private string prevText;
-        //private string currText;
-        //private string compareText;
+
         private string site;
-        private List<Site> sites;
+        private List<Site> sitesInfo;
         private MainForm main;
 
         public CompareForm()
@@ -39,13 +37,40 @@ namespace exeowatcher
                     json += sr.ReadToEnd();
             }
 
-            sites = JsonConvert.DeserializeObject<List<Site>>(json);
-            int index = sites.FindIndex(x => x.site == site);
+            sitesInfo = JsonConvert.DeserializeObject<List<Site>>(json);
+            int index = sitesInfo.FindIndex(x => x.site == site);
 
-            for (int i = 0; i < sites[index].pages.Count; i++)
+            for (int i = 0; i < sitesInfo[index].pages.Count; i++)
             {
-                listViewSites.Items.Add(new ListViewItem(new string[] { sites[index].pages[i].pageName, sites[index].pages[i].countChanges.ToString()}));
+                listViewSites.Items.Add(new ListViewItem(new string[] { sitesInfo[index].pages[i].pageName, sitesInfo[index].pages[i].countChanges.ToString()}));
             }
+        }
+
+        private void listViewSites_DoubleClick(object sender, EventArgs e)
+        {
+            tabControlCompare.SelectedIndex = 3; //tabCompare - вкладка сравнения
+            fillTabs(listViewSites.SelectedItems[0].Text);
+        }
+
+        private void fillTabs(string page)
+        {
+            int countChanges = 0;
+            string fileName = main.deleteInvalidChars(page);
+            string dirName = main.deleteInvalidChars(site);
+            List<string> textPrevList = main.readFromFile(fileName, dirName);
+            List<string> textCurrList = main.readFromFile(fileName + main.twoFileSuffix, dirName);
+            string textPrev = main.ListToStr(textPrevList);
+            string textCurr = main.ListToStr(textCurrList);
+            string tags_prevText = "";
+            string tags_currText = "";
+
+            tags_prevText = main.parseHTML(textPrev);
+            tags_currText = main.parseHTML(textCurr);
+
+            richTextBoxPrev.Text = main.ListToStr(textPrevList);
+            richTextBoxCurrent.Text = main.ListToStr(textCurrList);
+
+            main.compare(this.richTextBoxCompare,ref countChanges, tags_prevText, tags_currText);
         }
     }
 }

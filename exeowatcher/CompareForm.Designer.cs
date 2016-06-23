@@ -31,15 +31,17 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CompareForm));
             this.tabControlCompare = new System.Windows.Forms.TabControl();
             this.tabSelect = new System.Windows.Forms.TabPage();
+            this.listViewSites = new System.Windows.Forms.ListView();
+            this.columnSite = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnDistinction = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPrev = new System.Windows.Forms.TabPage();
             this.richTextBoxPrev = new System.Windows.Forms.RichTextBox();
             this.tabCurrent = new System.Windows.Forms.TabPage();
             this.richTextBoxCurrent = new System.Windows.Forms.RichTextBox();
             this.tabCompare = new System.Windows.Forms.TabPage();
             this.richTextBoxCompare = new System.Windows.Forms.RichTextBox();
-            this.listViewSites = new System.Windows.Forms.ListView();
-            this.columnSite = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnDistinction = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lblGreen = new System.Windows.Forms.Label();
+            this.lblRed = new System.Windows.Forms.Label();
             this.tabControlCompare.SuspendLayout();
             this.tabSelect.SuspendLayout();
             this.tabPrev.SuspendLayout();
@@ -69,6 +71,28 @@
             this.tabSelect.TabIndex = 4;
             this.tabSelect.Text = "Выбор сайта";
             this.tabSelect.UseVisualStyleBackColor = true;
+            // 
+            // listViewSites
+            // 
+            this.listViewSites.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnSite,
+            this.columnDistinction});
+            this.listViewSites.Location = new System.Drawing.Point(0, 0);
+            this.listViewSites.Name = "listViewSites";
+            this.listViewSites.Size = new System.Drawing.Size(784, 427);
+            this.listViewSites.TabIndex = 1;
+            this.listViewSites.UseCompatibleStateImageBehavior = false;
+            this.listViewSites.View = System.Windows.Forms.View.Details;
+            this.listViewSites.DoubleClick += new System.EventHandler(this.listViewSites_DoubleClick);
+            // 
+            // columnSite
+            // 
+            this.columnSite.Text = "Сайт";
+            this.columnSite.Width = 720;
+            // 
+            // columnDistinction
+            // 
+            this.columnDistinction.Text = "Отличия";
             // 
             // tabPrev
             // 
@@ -102,7 +126,7 @@
             // 
             // richTextBoxCurrent
             // 
-            this.richTextBoxCurrent.Location = new System.Drawing.Point(0, 1);
+            this.richTextBoxCurrent.Location = new System.Drawing.Point(0, 0);
             this.richTextBoxCurrent.Name = "richTextBoxCurrent";
             this.richTextBoxCurrent.Size = new System.Drawing.Size(784, 424);
             this.richTextBoxCurrent.TabIndex = 1;
@@ -110,6 +134,8 @@
             // 
             // tabCompare
             // 
+            this.tabCompare.Controls.Add(this.lblRed);
+            this.tabCompare.Controls.Add(this.lblGreen);
             this.tabCompare.Controls.Add(this.richTextBoxCompare);
             this.tabCompare.Location = new System.Drawing.Point(4, 22);
             this.tabCompare.Name = "tabCompare";
@@ -123,30 +149,29 @@
             // 
             this.richTextBoxCompare.Location = new System.Drawing.Point(0, 1);
             this.richTextBoxCompare.Name = "richTextBoxCompare";
-            this.richTextBoxCompare.Size = new System.Drawing.Size(784, 424);
+            this.richTextBoxCompare.Size = new System.Drawing.Size(784, 404);
             this.richTextBoxCompare.TabIndex = 1;
             this.richTextBoxCompare.Text = "";
             // 
-            // listViewSites
+            // lblGreen
             // 
-            this.listViewSites.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnSite,
-            this.columnDistinction});
-            this.listViewSites.Location = new System.Drawing.Point(0, 0);
-            this.listViewSites.Name = "listViewSites";
-            this.listViewSites.Size = new System.Drawing.Size(784, 427);
-            this.listViewSites.TabIndex = 1;
-            this.listViewSites.UseCompatibleStateImageBehavior = false;
-            this.listViewSites.View = System.Windows.Forms.View.Details;
+            this.lblGreen.AutoSize = true;
+            this.lblGreen.ForeColor = System.Drawing.Color.Green;
+            this.lblGreen.Location = new System.Drawing.Point(4, 408);
+            this.lblGreen.Name = "lblGreen";
+            this.lblGreen.Size = new System.Drawing.Size(144, 13);
+            this.lblGreen.TabIndex = 2;
+            this.lblGreen.Text = "Зелёный цвет - Добавлено";
             // 
-            // columnSite
+            // lblRed
             // 
-            this.columnSite.Text = "Сайт";
-            this.columnSite.Width = 720;
-            // 
-            // columnDistinction
-            // 
-            this.columnDistinction.Text = "Отличия";
+            this.lblRed.AutoSize = true;
+            this.lblRed.ForeColor = System.Drawing.Color.Red;
+            this.lblRed.Location = new System.Drawing.Point(154, 408);
+            this.lblRed.Name = "lblRed";
+            this.lblRed.Size = new System.Drawing.Size(131, 13);
+            this.lblRed.TabIndex = 3;
+            this.lblRed.Text = "Красный цвет - Удалено";
             // 
             // CompareForm
             // 
@@ -164,6 +189,7 @@
             this.tabPrev.ResumeLayout(false);
             this.tabCurrent.ResumeLayout(false);
             this.tabCompare.ResumeLayout(false);
+            this.tabCompare.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -181,5 +207,7 @@
         private System.Windows.Forms.ListView listViewSites;
         private System.Windows.Forms.ColumnHeader columnSite;
         private System.Windows.Forms.ColumnHeader columnDistinction;
+        private System.Windows.Forms.Label lblRed;
+        private System.Windows.Forms.Label lblGreen;
     }
 }

@@ -19,7 +19,7 @@ namespace exeowatcher
     {
         private List<Site> sites = new List<Site>();
         public List<string> tags = new List<string>();
-        private string twoFileSuffix = "_2";
+        public string twoFileSuffix = "_2";
 
         public MainForm()
         {
@@ -30,7 +30,6 @@ namespace exeowatcher
         {
             menuStrip1.Renderer = new ToolStripProfessionalRenderer(new ColorMenuStrip());
         }
-
 
         private List<string> getHTML(string urlAddress)
         {
@@ -172,68 +171,80 @@ namespace exeowatcher
             string tags_prevText = "", tags_currText = "";
             int countChanges = 0;
 
-            for (int i = 0; i < tags.Count; i++)
-            {
-                CQ dom = prevText;
-                CQ tg = dom[tags[i]];
+            tags_prevText = parseHTML(prevText);
+            tags_currText = parseHTML(currText);
 
-                tags_prevText += tags[i] + ":\n";
-                for (int j = 0; j < tg.ToList().Count(); j++)
-                {
-                    tags_prevText += tg[j].FirstChild + "\n";
-                }
-            }
-
-            for (int i = 0; i < tags.Count; i++)
-            {
-                CQ dom = currText;
-                CQ tg = dom[tags[i]];
-
-                tags_currText += tags[i] + ":\n";
-                for (int j = 0; j < tg.ToList().Count(); j++)
-                {
-                    tags_currText += tg[j].FirstChild + "\n";
-                }
-            }
-
-
-
-
-
-            TEXT1.Text = "";
-            TEXT2.Text = "";
-            AppendText(this.TEXT1, Color.Empty, tags_prevText);
-            AppendText(this.TEXT2, Color.Empty, tags_currText);
-
-
-
-
-            var dmp = new diff_match_patch();
-            var d = dmp.diff_main(tags_prevText, tags_currText);
-            List<Diff> dl = d;
-
-            richTxtResult.Text = "";
-            for (int i = 0; i < dl.Count; i++)
-            {
-                switch (dl[i].operation)
-                {
-                    case DiffMatchPatch.Operation.EQUAL:
-                        AppendText(this.richTxtResult, Color.Empty, dl[i].text);
-                        break;
-                    case DiffMatchPatch.Operation.INSERT:
-                        countChanges++;
-                        AppendText(this.richTxtResult, Color.Green, dl[i].text);
-                        break;
-                    case DiffMatchPatch.Operation.DELETE:
-                        countChanges++;
-                        AppendText(this.richTxtResult, Color.Red, dl[i].text);
-                        break;
-                }
-            }
+            compare(null, ref countChanges, tags_prevText, tags_currText);
 
             sites[indexList].pages[indexPage].countChanges = countChanges;
             updateStatusSite(indexList, indexPage);
 
+        }
+
+        public string parseHTML(string text)
+        {
+            string tagsText = "";
+
+            for (int i = 0; i < tags.Count; i++)
+            {
+                CQ dom = text;
+                CQ tg = dom[tags[i]];
+
+                tagsText += tags[i] + ":\n";
+                for (int j = 0; j < tg.ToList().Count(); j++)
+                {
+                    tagsText += tg[j].FirstChild + "\n";
+                }
+            }
+
+            return tagsText;
+        }
+
+        public void compare(RichTextBox rtbx, ref int countChanges, string tags_prevText, string tags_currText)
+        {
+            var dmp = new diff_match_patch();
+            var d = dmp.diff_main(tags_prevText, tags_currText);
+            List<Diff> dl = d;
+
+
+            if(rtbx != null)
+            {
+                for (int i = 0; i < dl.Count; i++)
+                {
+                    switch (dl[i].operation)
+                    {
+                        case DiffMatchPatch.Operation.EQUAL:
+                            AppendText(rtbx, Color.Empty, dl[i].text);
+                            break;
+                        case DiffMatchPatch.Operation.INSERT:
+                            countChanges++;
+                            AppendText(rtbx, Color.Green, dl[i].text);
+                            break;
+                        case DiffMatchPatch.Operation.DELETE:
+                            countChanges++;
+                            AppendText(rtbx, Color.Red, dl[i].text);
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < dl.Count; i++)
+                {
+                    switch (dl[i].operation)
+                    {
+                        case DiffMatchPatch.Operation.EQUAL:
+                            break;
+                        case DiffMatchPatch.Operation.INSERT:
+                            countChanges++;
+                            break;
+                        case DiffMatchPatch.Operation.DELETE:
+                            countChanges++;
+                            break;
+                    }
+                }
+            }
+            
         }
 
         private void AppendText(RichTextBox box, Color color, string text)
@@ -269,7 +280,7 @@ namespace exeowatcher
             return builder.ToString();
         }
 
-        private static List<string> readFromFile(string fileName, string parentDir)
+        public List<string> readFromFile(string fileName, string parentDir)
         {
 
             List<string> listLines = new List<string>();
@@ -346,6 +357,7 @@ namespace exeowatcher
             }
             Directory.Delete(directory);
         }
+
         private void copyFilesTo(string prevDir, string newDir)
         {
             DirectoryInfo source = new DirectoryInfo(prevDir);
@@ -485,18 +497,29 @@ namespace exeowatcher
                 MessageBox.Show("Отметьте галочкой всего лишь один сайт");
                 return;
             }
+            
 
             for (int i = 0; i < listViewSites.Items.Count; i++)
             {
                 if (listViewSites.Items[i].Checked)
                 {
-                    CompareForm cf = new CompareForm(sites[i].site);
-                    cf.Owner = this;
-                    cf.Show();
-                }
-            }
+                    string fileName = deleteInvalidChars(sites[i].pages[0].pageName);
+                    string dirName = deleteInvalidChars(sites[i].site);
 
-                    
+                    if (File.Exists(dirName + "/" + fileName + ".txt") && File.Exists(dirName + "/" + fileName + twoFileSuffix + ".txt"))
+                    {
+                        CompareForm cf = new CompareForm(sites[i].site);
+                        cf.Owner = this;
+                        cf.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Сначала просканируйте сайт, чтобы посмотреть различия");
+                        return;
+                    }
+
+                }
+            }         
         }
     }
 }
