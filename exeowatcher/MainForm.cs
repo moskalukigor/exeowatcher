@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Web;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
 using DiffMatchPatch;
-
+using CsQuery;
+using exeowatcher.classes;
+using Newtonsoft.Json;
 
 namespace exeowatcher
 {
     public partial class MainForm : Form
     {
-
-
-        private List<classes.Site> sites = new List<classes.Site>();
+        private List<Site> sites = new List<Site>();
+        public List<string> tags = new List<string>();
         private string twoFileSuffix = "_2";
 
         public MainForm()
@@ -31,8 +28,9 @@ namespace exeowatcher
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            menuStrip1.Renderer = new ToolStripProfessionalRenderer(new classes.ColorMenuStrip());
+            menuStrip1.Renderer = new ToolStripProfessionalRenderer(new ColorMenuStrip());
         }
+
 
         private List<string> getHTML(string urlAddress)
         {
@@ -56,7 +54,7 @@ namespace exeowatcher
 
                 List<string> data = new List<string>();
                 while (!readStream.EndOfStream)
-                { 
+                {
                     data.Add(readStream.ReadLine());
                 }
 
@@ -68,12 +66,13 @@ namespace exeowatcher
             return null;
         }
 
-        private void fillSiteHtmlToFile(string urlAddress)
+        private void fillSiteHtmlToFile(string urlAddress, int indexList)
         {
             List<string> content = getHTML(urlAddress);
 
-            int index = sites.FindIndex(x => x.site == urlAddress);
-            string fileName = deleteInvalidChars(sites[index].site);
+            int index = sites[indexList].pages.FindIndex(x => x.pageName == urlAddress);
+            string fileName = deleteInvalidChars(sites[indexList].pages[index].pageName);
+            string parentDir = deleteInvalidChars(sites[indexList].site);
 
 
             if (content == null)
@@ -83,63 +82,64 @@ namespace exeowatcher
             }
 
 
-            switch(checkEmptyFile(fileName))
+            switch (checkEmptyFile(fileName, parentDir))
             {
                 case "NotExist":
-                        writeToFile(content, fileName);
+                    writeToFile(content, fileName, parentDir);
+                    updateStatusSite(indexList, index);
                     break;
 
                 case "Empty":
-                        writeToFile(content, fileName);
+                    writeToFile(content, fileName, parentDir);
+                    updateStatusSite(indexList, index);
                     break;
 
                 case "TwoFileNotExist":
-                        writeToFile(content, fileName + twoFileSuffix);
-                        compareCode(fileName);
+                    writeToFile(content, fileName + twoFileSuffix, parentDir);
+                    compareCode(parentDir, fileName, index, indexList);
                     break;
 
                 case "TwoFileEmpty":
-                        writeToFile(content, fileName + twoFileSuffix);
-                        compareCode(fileName);
+                    writeToFile(content, fileName + twoFileSuffix, parentDir);
+                    compareCode(parentDir, fileName, index, indexList);
                     break;
 
                 case "TwoFileNotEmpty":
-                        writeToFile(readFromFile(fileName + twoFileSuffix), fileName);
-                        writeToFile(content, fileName + twoFileSuffix);
-                        compareCode(fileName);
+                    writeToFile(readFromFile(fileName + twoFileSuffix, parentDir), fileName, parentDir);
+                    writeToFile(content, fileName + twoFileSuffix, parentDir);
+                    compareCode(parentDir, fileName, index, indexList);
                     break;
             }
         }
 
-
         public void updateStatusSite(int indexList, int indexSite)
         {
-            listViewSites.Items[indexList] = (new ListViewItem(new string[] { sites[indexSite].site, DateTime.Now.ToString() , sites[indexSite].pages.Count.ToString(), "X", "X", "X", "X", "X", "X", "X", }));
+            listViewSites.Items[indexList] = (new ListViewItem(new string[] { sites[indexList].site, DateTime.Now.ToString(), sites[indexList].pages.Count.ToString(), "X", "X", "X", "X", "X", "X", "X", }));
         }
 
-        public string checkEmptyFile(string fileName)
+        public string checkEmptyFile(string fileName, string parentDir)
         {
             string result = "";
 
-            if (!(new FileInfo(fileName + ".txt").Exists))
+            if (!(new FileInfo(parentDir + "/" + fileName + ".txt").Exists))
             {
                 result = "NotExist";
                 return result;
             }
 
-            if (new FileInfo(fileName + ".txt").Length == 0)
+            if (new FileInfo(parentDir + "/" + fileName + ".txt").Length == 0)
             {
                 result = "Empty";
                 return result;
             }
 
-            if (!(new FileInfo(fileName + twoFileSuffix + ".txt").Exists))
+            if (!(new FileInfo(parentDir + "/" + fileName + twoFileSuffix + ".txt").Exists))
             {
                 result = "TwoFileNotExist";
                 return result;
             }
 
-            if (new FileInfo(fileName + twoFileSuffix + ".txt").Length == 0)
+            if (new FileInfo(parentDir + "/" + fileName + twoFileSuffix + ".txt").Length == 0)
             {
                 result = "TwoFileEmpty";
                 return result;
@@ -149,8 +149,6 @@ namespace exeowatcher
                 result = "TwoFileNotEmpty";
                 return result;
             }
-
-            return result;
         }
 
         public string deleteInvalidChars(string fileName)
@@ -164,37 +162,81 @@ namespace exeowatcher
             return fileName;
         }
 
-        public void compareCode(string fileName)
+        public void compareCode(string parentDir, string fileName, int indexPage, int indexList)
         {
 
-            List<string> prevText = readFromFile(fileName);
-            List<string> currText = readFromFile(fileName + twoFileSuffix);
 
-          
+            string prevText = ListToStr(readFromFile(fileName, parentDir));
+            string currText = ListToStr(readFromFile(fileName + twoFileSuffix, parentDir));
+
+            string tags_prevText = "", tags_currText = "";
+            int countChanges = 0;
+
+            for (int i = 0; i < tags.Count; i++)
+            {
+                CQ dom = prevText;
+                CQ tg = dom[tags[i]];
+
+                tags_prevText += tags[i] + ":\n";
+                for (int j = 0; j < tg.ToList().Count(); j++)
+                {
+                    tags_prevText += tg[j].FirstChild + "\n";
+                }
+            }
+
+            for (int i = 0; i < tags.Count; i++)
+            {
+                CQ dom = currText;
+                CQ tg = dom[tags[i]];
+
+                tags_currText += tags[i] + ":\n";
+                for (int j = 0; j < tg.ToList().Count(); j++)
+                {
+                    tags_currText += tg[j].FirstChild + "\n";
+                }
+            }
+
+
+
+
+
+            TEXT1.Text = "";
+            TEXT2.Text = "";
+            AppendText(this.TEXT1, Color.Empty, tags_prevText);
+            AppendText(this.TEXT2, Color.Empty, tags_currText);
+
+
+
+
             var dmp = new diff_match_patch();
-            var d = dmp.diff_main(ListToStr(prevText), ListToStr(currText));
-            List<DiffMatchPatch.Diff> dl = d;
+            var d = dmp.diff_main(tags_prevText, tags_currText);
+            List<Diff> dl = d;
 
             richTxtResult.Text = "";
-            for(int i = 0; i < dl.Count; i++)
+            for (int i = 0; i < dl.Count; i++)
             {
-                switch(dl[i].operation)
+                switch (dl[i].operation)
                 {
-                    /*case DiffMatchPatch.Operation.EQUAL:
-                            AppendText(this.richTxtResult, Color.Empty, dl[i].text);
-                        break;*/
+                    case DiffMatchPatch.Operation.EQUAL:
+                        AppendText(this.richTxtResult, Color.Empty, dl[i].text);
+                        break;
                     case DiffMatchPatch.Operation.INSERT:
-                            AppendText(this.richTxtResult, Color.Green, dl[i].text);
+                        countChanges++;
+                        AppendText(this.richTxtResult, Color.Green, dl[i].text);
                         break;
                     case DiffMatchPatch.Operation.DELETE:
-                            AppendText(this.richTxtResult, Color.Red, dl[i].text);
+                        countChanges++;
+                        AppendText(this.richTxtResult, Color.Red, dl[i].text);
                         break;
                 }
             }
-            
+
+            sites[indexList].pages[indexPage].countChanges = countChanges;
+            updateStatusSite(indexList, indexPage);
+
         }
 
-        void AppendText(RichTextBox box, Color color, string text)
+        private void AppendText(RichTextBox box, Color color, string text)
         {
             int start = box.TextLength;
             box.AppendText(text);
@@ -207,12 +249,16 @@ namespace exeowatcher
             box.SelectionLength = 0; // clear
         }
 
-        private void writeToFile(List<string> content, string fileName)
+        private void writeToFile(List<string> content, string fileName, string parentDir)
         {
-            File.WriteAllLines(fileName + ".txt", content);
+            if (!Directory.Exists(parentDir))
+            {
+                Directory.CreateDirectory(parentDir);
+            }
+            File.WriteAllLines(parentDir + "/" + fileName + ".txt", content);
         }
 
-        private static string ListToStr(List<string> array)
+        public string ListToStr(List<string> array)
         {
             StringBuilder builder = new StringBuilder();
             foreach (string value in array)
@@ -223,22 +269,32 @@ namespace exeowatcher
             return builder.ToString();
         }
 
-
-        private static List<string> readFromFile(string fileName)
+        private static List<string> readFromFile(string fileName, string parentDir)
         {
 
             List<string> listLines = new List<string>();
 
-            using (StreamReader sr = new StreamReader(File.Open(fileName + ".txt", FileMode.Open)))
+            if (parentDir != null)
             {
-                while (!sr.EndOfStream)
-                    listLines.Add(sr.ReadLine());
+                using (StreamReader sr = new StreamReader(File.Open(parentDir + "/" + fileName + ".txt", FileMode.Open)))
+                {
+                    while (!sr.EndOfStream)
+                        listLines.Add(sr.ReadLine());
+                }
             }
-           
+            else
+            {
+                using (StreamReader sr = new StreamReader(File.Open(fileName + ".txt", FileMode.Open)))
+                {
+                    while (!sr.EndOfStream)
+                        listLines.Add(sr.ReadLine());
+                }
+            }
+
             return listLines;
         }
 
-        private DateTime getFileName(int index)
+        private DateTime getLatestScan(int index)
         {
             DateTime result;
 
@@ -249,22 +305,56 @@ namespace exeowatcher
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            AddSite addSiteForm = new AddSite();
+            AddSiteForm addSiteForm = new AddSiteForm();
             addSiteForm.Owner = this;
-            addSiteForm.Show(); 
+            addSiteForm.Show();
         }
 
-
-        public void AddSite(string site, List<string> pages)
+        internal void AddSite(string site, List<Page> pages)
         {
-            sites.Add(new classes.Site(site, new DateTime(1990, 01, 01), pages.Count, pages));
+            if (!Directory.Exists(deleteInvalidChars(site)))
+            {
+                Directory.CreateDirectory(deleteInvalidChars(site));
+            }
+            sites.Add(new Site(site, new DateTime(1990, 01, 01), pages.Count, pages));
             listViewSites.Items.Add(new ListViewItem(new string[] { site, "не сканировался", pages.Count.ToString(), "X", "X", "X", "X", "X", "X", "X", }));
         }
 
-        public void EditSite(string site, List<string> pages, int indexSites, int indexListView)
+        internal void EditSite(string site, List<Page> pages, int indexSites, int indexListView)
         {
-            sites[indexSites] = new classes.Site(site, new DateTime(1990, 01, 01), pages.Count, pages);
+            if (site != sites[indexSites].site && !Directory.Exists(deleteInvalidChars(site)))
+            {
+                string newDir = deleteInvalidChars(site);
+                string prevDir = deleteInvalidChars(sites[indexSites].site);
+
+                Directory.CreateDirectory(newDir);
+                copyFilesTo(prevDir, newDir);
+                deleteDirectory(prevDir);
+                //Directory.Delete(prevDir);
+            }
+            sites[indexSites] = new Site(site, new DateTime(1990, 01, 01), pages.Count, pages);
             listViewSites.Items[indexListView] = (new ListViewItem(new string[] { site, "не сканировался", pages.Count.ToString(), "X", "X", "X", "X", "X", "X", "X", }));
+        }
+
+        private void deleteDirectory(string directory)
+        {
+            DirectoryInfo dir = new DirectoryInfo(directory);
+
+            foreach (var item in dir.GetFiles())
+            {
+                item.Delete();
+            }
+            Directory.Delete(directory);
+        }
+        private void copyFilesTo(string prevDir, string newDir)
+        {
+            DirectoryInfo source = new DirectoryInfo(prevDir);
+            DirectoryInfo destin = new DirectoryInfo(newDir);
+
+            foreach(var item in source.GetFiles())
+            {
+                item.CopyTo(destin + "/" + item.Name, true);
+            }
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -280,16 +370,34 @@ namespace exeowatcher
                 MessageBox.Show("Отметьте галочкой сайты, которые хотите просканировать");
                 return;
             }
-
-
-
-            for(int i = 0; i < sites.Count; i++)
+            if(tags.Count == 0)
             {
-                for(int j = 0; j < sites[i].pages.Count; j++)
+                MessageBox.Show("Вы не выбрали теги для проверки. Закройте это окно, чтобы выбрать.");
+                SettingsForm sf = new SettingsForm();
+                sf.Owner = this;
+                sf.Show();
+                return;
+            }
+
+
+            for (int i = 0; i < listViewSites.Items.Count; i++)
+            {
+                if(!listViewSites.Items[i].Checked)
                 {
-                    fillSiteHtmlToFile(sites[i].pages[j]);
+                    continue;
+                }
+                for (int j = 0; j < sites[i].pages.Count; j++)
+                {
+                    var indexItemList = listViewSites.FindItemWithText(sites[i].site);
+                    if (indexItemList != null)
+                        fillSiteHtmlToFile(sites[i].pages[j].pageName, indexItemList.Index);
                 }
             }
+
+
+
+            string json = JsonConvert.SerializeObject(sites, Formatting.Indented);
+            File.WriteAllText("info.json",json);
 
 
         }
@@ -347,7 +455,7 @@ namespace exeowatcher
                             int indexListView = i;
 
 
-                            AddSite addSiteForm = new AddSite(sites[j].site, sites[j].pages, indexSites, indexListView);
+                            AddSiteForm addSiteForm = new AddSiteForm(sites[j].site, sites[j].pages, indexSites, indexListView);
                             addSiteForm.Owner = this;
                             addSiteForm.Show();
                         }
@@ -358,6 +466,37 @@ namespace exeowatcher
 
         }
 
+        private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SettingsForm sf = new SettingsForm();
+            sf.Owner = this;
+            sf.Show();
+        }
 
+        private void showCompareToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (listViewSites.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Отметьте галочкой один сайт");
+                return;
+            }
+            if (listViewSites.CheckedItems.Count > 1)
+            {
+                MessageBox.Show("Отметьте галочкой всего лишь один сайт");
+                return;
+            }
+
+            for (int i = 0; i < listViewSites.Items.Count; i++)
+            {
+                if (listViewSites.Items[i].Checked)
+                {
+                    CompareForm cf = new CompareForm(sites[i].site);
+                    cf.Owner = this;
+                    cf.Show();
+                }
+            }
+
+                    
+        }
     }
 }

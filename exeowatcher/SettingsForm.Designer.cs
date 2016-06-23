@@ -1,6 +1,6 @@
 ﻿namespace exeowatcher
 {
-    partial class Settings
+    partial class SettingsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,31 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
             this.tabCntrlSettings = new System.Windows.Forms.TabControl();
             this.tabPgSettingTag = new System.Windows.Forms.TabPage();
             this.groupBoxChooseTag = new System.Windows.Forms.GroupBox();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.checkedListBoxTags = new System.Windows.Forms.CheckedListBox();
             this.tabPgProxy = new System.Windows.Forms.TabPage();
-            this.groupBoxDescription = new System.Windows.Forms.GroupBox();
-            this.lblDescription = new System.Windows.Forms.Label();
-            this.btnSettingsOk = new System.Windows.Forms.Button();
-            this.btnSettingsCancel = new System.Windows.Forms.Button();
+            this.btnSettingsRemoveAll = new System.Windows.Forms.Button();
+            this.btnSettingsOfFile = new System.Windows.Forms.Button();
+            this.btnSettingsOfBuffer = new System.Windows.Forms.Button();
             this.groupBoxProxy = new System.Windows.Forms.GroupBox();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnIp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnPort = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnLogin = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnPassword = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.btnSettingsOfBuffer = new System.Windows.Forms.Button();
-            this.btnSettingsOfFile = new System.Windows.Forms.Button();
-            this.btnSettingsRemoveAll = new System.Windows.Forms.Button();
+            this.groupBoxDescription = new System.Windows.Forms.GroupBox();
+            this.lblDescription = new System.Windows.Forms.Label();
+            this.btnSettingsOk = new System.Windows.Forms.Button();
+            this.btnSettingsCancel = new System.Windows.Forms.Button();
             this.tabCntrlSettings.SuspendLayout();
             this.tabPgSettingTag.SuspendLayout();
             this.groupBoxChooseTag.SuspendLayout();
             this.tabPgProxy.SuspendLayout();
-            this.groupBoxDescription.SuspendLayout();
             this.groupBoxProxy.SuspendLayout();
+            this.groupBoxDescription.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabCntrlSettings
@@ -78,7 +78,7 @@
             // 
             // groupBoxChooseTag
             // 
-            this.groupBoxChooseTag.Controls.Add(this.checkedListBox1);
+            this.groupBoxChooseTag.Controls.Add(this.checkedListBoxTags);
             this.groupBoxChooseTag.Location = new System.Drawing.Point(7, 7);
             this.groupBoxChooseTag.Name = "groupBoxChooseTag";
             this.groupBoxChooseTag.Size = new System.Drawing.Size(343, 183);
@@ -86,22 +86,27 @@
             this.groupBoxChooseTag.TabStop = false;
             this.groupBoxChooseTag.Text = "Выберите тег";
             // 
-            // checkedListBox1
+            // checkedListBoxTags
             // 
-            this.checkedListBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Items.AddRange(new object[] {
-            "H1-H6",
+            this.checkedListBoxTags.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.checkedListBoxTags.FormattingEnabled = true;
+            this.checkedListBoxTags.Items.AddRange(new object[] {
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
             "Title",
             "Description",
             "Keywords",
             "Strong",
-            "<p>",
-            "<b>"});
-            this.checkedListBox1.Location = new System.Drawing.Point(7, 20);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(330, 150);
-            this.checkedListBox1.TabIndex = 0;
+            "p",
+            "b"});
+            this.checkedListBoxTags.Location = new System.Drawing.Point(7, 20);
+            this.checkedListBoxTags.Name = "checkedListBoxTags";
+            this.checkedListBoxTags.Size = new System.Drawing.Size(330, 150);
+            this.checkedListBoxTags.TabIndex = 0;
             // 
             // tabPgProxy
             // 
@@ -117,42 +122,32 @@
             this.tabPgProxy.Text = "Прокси-сервер";
             this.tabPgProxy.UseVisualStyleBackColor = true;
             // 
-            // groupBoxDescription
+            // btnSettingsRemoveAll
             // 
-            this.groupBoxDescription.Controls.Add(this.lblDescription);
-            this.groupBoxDescription.Location = new System.Drawing.Point(13, 241);
-            this.groupBoxDescription.Name = "groupBoxDescription";
-            this.groupBoxDescription.Size = new System.Drawing.Size(360, 99);
-            this.groupBoxDescription.TabIndex = 1;
-            this.groupBoxDescription.TabStop = false;
-            this.groupBoxDescription.Text = "Описание";
+            this.btnSettingsRemoveAll.Location = new System.Drawing.Point(264, 167);
+            this.btnSettingsRemoveAll.Name = "btnSettingsRemoveAll";
+            this.btnSettingsRemoveAll.Size = new System.Drawing.Size(83, 23);
+            this.btnSettingsRemoveAll.TabIndex = 3;
+            this.btnSettingsRemoveAll.Text = "Удалить всё";
+            this.btnSettingsRemoveAll.UseVisualStyleBackColor = true;
             // 
-            // lblDescription
+            // btnSettingsOfFile
             // 
-            this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(6, 16);
-            this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(57, 13);
-            this.lblDescription.TabIndex = 2;
-            this.lblDescription.Text = "Описание";
+            this.btnSettingsOfFile.Location = new System.Drawing.Point(133, 167);
+            this.btnSettingsOfFile.Name = "btnSettingsOfFile";
+            this.btnSettingsOfFile.Size = new System.Drawing.Size(75, 23);
+            this.btnSettingsOfFile.TabIndex = 2;
+            this.btnSettingsOfFile.Text = "Из файла";
+            this.btnSettingsOfFile.UseVisualStyleBackColor = true;
             // 
-            // btnSettingsOk
+            // btnSettingsOfBuffer
             // 
-            this.btnSettingsOk.Location = new System.Drawing.Point(383, 35);
-            this.btnSettingsOk.Name = "btnSettingsOk";
-            this.btnSettingsOk.Size = new System.Drawing.Size(75, 23);
-            this.btnSettingsOk.TabIndex = 2;
-            this.btnSettingsOk.Text = "OK";
-            this.btnSettingsOk.UseVisualStyleBackColor = true;
-            // 
-            // btnSettingsCancel
-            // 
-            this.btnSettingsCancel.Location = new System.Drawing.Point(383, 64);
-            this.btnSettingsCancel.Name = "btnSettingsCancel";
-            this.btnSettingsCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnSettingsCancel.TabIndex = 3;
-            this.btnSettingsCancel.Text = "Отмена";
-            this.btnSettingsCancel.UseVisualStyleBackColor = true;
+            this.btnSettingsOfBuffer.Location = new System.Drawing.Point(6, 167);
+            this.btnSettingsOfBuffer.Name = "btnSettingsOfBuffer";
+            this.btnSettingsOfBuffer.Size = new System.Drawing.Size(83, 23);
+            this.btnSettingsOfBuffer.TabIndex = 1;
+            this.btnSettingsOfBuffer.Text = "Из буффера";
+            this.btnSettingsOfBuffer.UseVisualStyleBackColor = true;
             // 
             // groupBoxProxy
             // 
@@ -200,34 +195,46 @@
             this.columnPassword.Text = "Password";
             this.columnPassword.Width = 105;
             // 
-            // btnSettingsOfBuffer
+            // groupBoxDescription
             // 
-            this.btnSettingsOfBuffer.Location = new System.Drawing.Point(6, 167);
-            this.btnSettingsOfBuffer.Name = "btnSettingsOfBuffer";
-            this.btnSettingsOfBuffer.Size = new System.Drawing.Size(83, 23);
-            this.btnSettingsOfBuffer.TabIndex = 1;
-            this.btnSettingsOfBuffer.Text = "Из буффера";
-            this.btnSettingsOfBuffer.UseVisualStyleBackColor = true;
+            this.groupBoxDescription.Controls.Add(this.lblDescription);
+            this.groupBoxDescription.Location = new System.Drawing.Point(13, 241);
+            this.groupBoxDescription.Name = "groupBoxDescription";
+            this.groupBoxDescription.Size = new System.Drawing.Size(360, 99);
+            this.groupBoxDescription.TabIndex = 1;
+            this.groupBoxDescription.TabStop = false;
+            this.groupBoxDescription.Text = "Описание";
             // 
-            // btnSettingsOfFile
+            // lblDescription
             // 
-            this.btnSettingsOfFile.Location = new System.Drawing.Point(133, 167);
-            this.btnSettingsOfFile.Name = "btnSettingsOfFile";
-            this.btnSettingsOfFile.Size = new System.Drawing.Size(75, 23);
-            this.btnSettingsOfFile.TabIndex = 2;
-            this.btnSettingsOfFile.Text = "Из файла";
-            this.btnSettingsOfFile.UseVisualStyleBackColor = true;
+            this.lblDescription.AutoSize = true;
+            this.lblDescription.Location = new System.Drawing.Point(6, 16);
+            this.lblDescription.Name = "lblDescription";
+            this.lblDescription.Size = new System.Drawing.Size(57, 13);
+            this.lblDescription.TabIndex = 2;
+            this.lblDescription.Text = "Описание";
             // 
-            // btnSettingsRemoveAll
+            // btnSettingsOk
             // 
-            this.btnSettingsRemoveAll.Location = new System.Drawing.Point(264, 167);
-            this.btnSettingsRemoveAll.Name = "btnSettingsRemoveAll";
-            this.btnSettingsRemoveAll.Size = new System.Drawing.Size(83, 23);
-            this.btnSettingsRemoveAll.TabIndex = 3;
-            this.btnSettingsRemoveAll.Text = "Удалить всё";
-            this.btnSettingsRemoveAll.UseVisualStyleBackColor = true;
+            this.btnSettingsOk.Location = new System.Drawing.Point(383, 35);
+            this.btnSettingsOk.Name = "btnSettingsOk";
+            this.btnSettingsOk.Size = new System.Drawing.Size(75, 23);
+            this.btnSettingsOk.TabIndex = 2;
+            this.btnSettingsOk.Text = "OK";
+            this.btnSettingsOk.UseVisualStyleBackColor = true;
+            this.btnSettingsOk.Click += new System.EventHandler(this.btnSettingsOk_Click);
             // 
-            // Settings
+            // btnSettingsCancel
+            // 
+            this.btnSettingsCancel.Location = new System.Drawing.Point(383, 64);
+            this.btnSettingsCancel.Name = "btnSettingsCancel";
+            this.btnSettingsCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnSettingsCancel.TabIndex = 3;
+            this.btnSettingsCancel.Text = "Отмена";
+            this.btnSettingsCancel.UseVisualStyleBackColor = true;
+            this.btnSettingsCancel.Click += new System.EventHandler(this.btnSettingsCancel_Click);
+            // 
+            // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -237,15 +244,16 @@
             this.Controls.Add(this.groupBoxDescription);
             this.Controls.Add(this.tabCntrlSettings);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Settings";
+            this.Name = "SettingsForm";
             this.Text = "Settings";
+            this.Load += new System.EventHandler(this.SettingsForm_Load);
             this.tabCntrlSettings.ResumeLayout(false);
             this.tabPgSettingTag.ResumeLayout(false);
             this.groupBoxChooseTag.ResumeLayout(false);
             this.tabPgProxy.ResumeLayout(false);
+            this.groupBoxProxy.ResumeLayout(false);
             this.groupBoxDescription.ResumeLayout(false);
             this.groupBoxDescription.PerformLayout();
-            this.groupBoxProxy.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -256,7 +264,7 @@
         private System.Windows.Forms.TabPage tabPgSettingTag;
         private System.Windows.Forms.TabPage tabPgProxy;
         private System.Windows.Forms.GroupBox groupBoxChooseTag;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.CheckedListBox checkedListBoxTags;
         private System.Windows.Forms.GroupBox groupBoxDescription;
         private System.Windows.Forms.Label lblDescription;
         private System.Windows.Forms.Button btnSettingsOk;

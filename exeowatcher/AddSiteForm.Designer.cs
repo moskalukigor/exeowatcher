@@ -1,6 +1,6 @@
 ﻿namespace exeowatcher
 {
-    partial class AddSite
+    partial class AddSiteForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddSite));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddSiteForm));
             this.groupBoxSite = new System.Windows.Forms.GroupBox();
             this.txtBoxSite = new System.Windows.Forms.TextBox();
             this.groupBoxPages = new System.Windows.Forms.GroupBox();

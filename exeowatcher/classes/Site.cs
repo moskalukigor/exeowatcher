@@ -10,22 +10,19 @@ namespace exeowatcher.classes
     {
         public string site;
         public DateTime latestScan;
-        public int countPages;
-        public List<string> pages = new List<string>();
+        public List<Page> pages = new List<Page>();
 
         public Site()
         {
-            this.site = "Default";
-            this.latestScan = new DateTime(00, 00, 00);
-            this.countPages = 0;
-            this.pages.Add("Default");
+            //this.site = "Default";
+            //this.latestScan = new DateTime(1990, 01, 01);
+            //this.pages.Add(new Page("default", 0));
         }
 
-        public Site(string site, DateTime latestScan, int countPages, List<string> pages)
+        public Site(string site, DateTime latestScan, int countPages, List<Page> pages)
         {
             this.site = site;
             this.latestScan = latestScan;
-            this.countPages = countPages;
             this.pages = pages;
         }
     }

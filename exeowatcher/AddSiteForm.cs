@@ -1,27 +1,28 @@
-﻿using System;
+﻿using exeowatcher.classes;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace exeowatcher
 {
-    public partial class AddSite : Form
+    public partial class AddSiteForm : Form
     {
 
-        MainForm main;
-        string site;
-        List<string> pages;
-        bool typeForm;          // 0(false) - add , 1(true) - edit
+        private MainForm main;
+        private string site;
+        private List<Page> pages;
+        private bool typeForm;          // 0(false) - add , 1(true) - edit
 
         int indexSites;
         int indexListView;
 
-        public AddSite()
+        public AddSiteForm()
         {
             typeForm = false;
-            pages = new List<string>();
+            pages = new List<Page>();
             InitializeComponent();
         }
-        public AddSite(string site, List<string> pages,int indexSites, int indexListView)
+        internal AddSiteForm(string site, List<Page> pages,int indexSites, int indexListView)
         {
             typeForm = true;
             this.site = site;
@@ -41,7 +42,7 @@ namespace exeowatcher
                 {
                     listBoxPages.Items.Add(pages[i]);
                 }
-                pages = new List<string>();
+                pages = new List<Page>();
             }
         }
 
@@ -109,7 +110,7 @@ namespace exeowatcher
 
             for(int i = 0; i < listBoxPages.Items.Count; i++)
             {
-                pages.Add(listBoxPages.Items[i].ToString());
+                pages.Add(new Page(listBoxPages.Items[i].ToString(), 0));
             }
 
 
@@ -121,7 +122,7 @@ namespace exeowatcher
 
             if (!typeForm)
             {
-                main.AddSite(txtBoxPage.Text, pages);
+                main.AddSite(txtBoxSite.Text, pages);
             }
             else
             {
