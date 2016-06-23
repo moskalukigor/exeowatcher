@@ -12,6 +12,7 @@ using DiffMatchPatch;
 using CsQuery;
 using exeowatcher.classes;
 using Newtonsoft.Json;
+using System.Runtime.InteropServices;
 
 namespace exeowatcher
 {
@@ -21,6 +22,11 @@ namespace exeowatcher
         public List<string> tags = new List<string>();
         public string twoFileSuffix = "_2";
 
+        //Анимация цвета кнопок
+        Color oldColor;
+        Color newColor = Color.FromArgb(0, Color.Moccasin);
+        int alpha = 0;
+
         public MainForm()
         {
             InitializeComponent();
@@ -29,6 +35,19 @@ namespace exeowatcher
         private void MainForm_Load(object sender, EventArgs e)
         {
             menuStrip1.Renderer = new ToolStripProfessionalRenderer(new ColorMenuStrip());
+
+            if (File.Exists("settings.json"))
+            {
+                string json = "";
+
+                using (StreamReader sr = new StreamReader(File.Open("settings.json", FileMode.Open)))
+                {
+                    json += sr.ReadToEnd();
+                }
+
+                tags = JsonConvert.DeserializeObject<List<string>>(json);
+                
+            }
         }
 
         private List<string> getHTML(string urlAddress)
@@ -316,9 +335,7 @@ namespace exeowatcher
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            AddSiteForm addSiteForm = new AddSiteForm();
-            addSiteForm.Owner = this;
-            addSiteForm.Show();
+            
         }
 
         internal void AddSite(string site, List<Page> pages)
@@ -369,118 +386,9 @@ namespace exeowatcher
             }
         }
 
-        private void btnStart_Click(object sender, EventArgs e)
-        {
-            if(listViewSites.Items.Count == 0)
-            {
-                MessageBox.Show("Добавьте хотя бы один сайт.");
-                return;
-            }
-
-            if(listViewSites.CheckedItems.Count == 0)
-            {
-                MessageBox.Show("Отметьте галочкой сайты, которые хотите просканировать");
-                return;
-            }
-            if(tags.Count == 0)
-            {
-                MessageBox.Show("Вы не выбрали теги для проверки. Закройте это окно, чтобы выбрать.");
-                SettingsForm sf = new SettingsForm();
-                sf.Owner = this;
-                sf.Show();
-                return;
-            }
-
-
-            for (int i = 0; i < listViewSites.Items.Count; i++)
-            {
-                if(!listViewSites.Items[i].Checked)
-                {
-                    continue;
-                }
-                for (int j = 0; j < sites[i].pages.Count; j++)
-                {
-                    var indexItemList = listViewSites.FindItemWithText(sites[i].site);
-                    if (indexItemList != null)
-                        fillSiteHtmlToFile(sites[i].pages[j].pageName, indexItemList.Index);
-                }
-            }
-
-
-
-            string json = JsonConvert.SerializeObject(sites, Formatting.Indented);
-            File.WriteAllText("info.json",json);
-
-
-        }
-
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-            if (listViewSites.CheckedItems.Count == 0)
-            {
-                MessageBox.Show("Отметьте галочкой один сайт");
-                return;
-            }
-
-            for (int i = 0; i < listViewSites.Items.Count; i++)
-            {
-                if(listViewSites.Items[i].Checked)
-                {
-
-                    for (int j = 0; j < sites.Count; j++)
-                    {
-                        if (sites[j].site == listViewSites.Items[i].Text)
-                        {
-                            sites.RemoveAt(j);
-                        }
-                    }
-
-                    listViewSites.Items[i].Remove();
-                }       
-            }
-            
-        }
-
-        private void btnEdit_Click(object sender, EventArgs e)
-        {
-            if (listViewSites.CheckedItems.Count == 0)
-            {
-                MessageBox.Show("Отметьте галочкой один сайт");
-                return;
-            }
-            if (listViewSites.CheckedItems.Count > 1)
-            {
-                MessageBox.Show("Отметьте галочкой всего лишь один сайт");
-                return;
-            }
-
-            for (int i = 0; i < listViewSites.Items.Count; i++)
-            {
-                if (listViewSites.Items[i].Checked)
-                {
-                    for(int j = 0; j < sites.Count; j++)
-                    {
-                        if (sites[j].site == listViewSites.Items[i].Text)
-                        {
-
-                            int indexSites = j;
-                            int indexListView = i;
-
-
-                            AddSiteForm addSiteForm = new AddSiteForm(sites[j].site, sites[j].pages, indexSites, indexListView);
-                            addSiteForm.Owner = this;
-                            addSiteForm.Show();
-                        }
-                    }
-                    
-                }
-            }
-
-        }
-
         private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SettingsForm sf = new SettingsForm();
+            SettingsForm sf = new SettingsForm(tags);
             sf.Owner = this;
             sf.Show();
         }
@@ -521,5 +429,188 @@ namespace exeowatcher
                 }
             }         
         }
+
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+        }
+
+        #region Buttons
+
+        private void btnImgStart_Click(object sender, EventArgs e)
+        {
+            if (listViewSites.Items.Count == 0)
+            {
+                MessageBox.Show("Добавьте хотя бы один сайт.");
+                return;
+            }
+
+            if (listViewSites.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Отметьте галочкой сайты, которые хотите просканировать");
+                return;
+            }
+            if (tags.Count == 0)
+            {
+                MessageBox.Show("Вы не выбрали теги для проверки. Закройте это окно, чтобы выбрать.");
+                SettingsForm sf = new SettingsForm();
+                sf.Owner = this;
+                sf.Show();
+                return;
+            }
+
+
+            for (int i = 0; i < listViewSites.Items.Count; i++)
+            {
+                if (!listViewSites.Items[i].Checked)
+                {
+                    continue;
+                }
+                for (int j = 0; j < sites[i].pages.Count; j++)
+                {
+                    var indexItemList = listViewSites.FindItemWithText(sites[i].site);
+                    if (indexItemList != null)
+                        fillSiteHtmlToFile(sites[i].pages[j].pageName, indexItemList.Index);
+                }
+            }
+
+
+
+            string json = JsonConvert.SerializeObject(sites, Formatting.Indented);
+            File.WriteAllText("info.json", json);
+        }
+
+        private void btnImgStop_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnImgAdd_Click(object sender, EventArgs e)
+        {
+            AddSiteForm addSiteForm = new AddSiteForm();
+            addSiteForm.Owner = this;
+            addSiteForm.Show();
+        }
+
+        private void btnImgDelete_Click(object sender, EventArgs e)
+        {
+            if (listViewSites.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Отметьте галочкой один сайт");
+                return;
+            }
+
+            for (int i = 0; i < listViewSites.Items.Count; i++)
+            {
+                if (listViewSites.Items[i].Checked)
+                {
+
+                    for (int j = 0; j < sites.Count; j++)
+                    {
+                        if (sites[j].site == listViewSites.Items[i].Text)
+                        {
+                            sites.RemoveAt(j);
+                        }
+                    }
+
+                    listViewSites.Items[i].Remove();
+                }
+            }
+        }
+
+        private void btnImgEdit_Click(object sender, EventArgs e)
+        {
+            if (listViewSites.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Отметьте галочкой один сайт");
+                return;
+            }
+            if (listViewSites.CheckedItems.Count > 1)
+            {
+                MessageBox.Show("Отметьте галочкой всего лишь один сайт");
+                return;
+            }
+
+            for (int i = 0; i < listViewSites.Items.Count; i++)
+            {
+                if (listViewSites.Items[i].Checked)
+                {
+                    for (int j = 0; j < sites.Count; j++)
+                    {
+                        if (sites[j].site == listViewSites.Items[i].Text)
+                        {
+
+                            int indexSites = j;
+                            int indexListView = i;
+
+
+                            AddSiteForm addSiteForm = new AddSiteForm(sites[j].site, sites[j].pages, indexSites, indexListView);
+                            addSiteForm.Owner = this;
+                            addSiteForm.Show();
+                        }
+                    }
+
+                }
+            }
+        }
+
+
+        #endregion
+
+
+        private void timerStop(Timer tm, PictureBox btn)
+        {
+            tm.Stop();
+            btn.BackColor = oldColor;
+            btn.ForeColor = Color.Black;
+        }
+        private void timerStart(Timer tm)
+        {
+            alpha = 0;
+            tm.Interval = 15;
+            tm.Start();
+        }
+        private void timerTick(Timer tm, PictureBox btn)
+        {
+            alpha += 17;
+            btn.BackColor = Color.FromArgb(alpha, newColor);
+            if (alpha >= 255) tm.Stop();
+            if (btn.BackColor.GetBrightness() < 0.3) btn.ForeColor = Color.White;
+        }
+        private void btnImgAdd_MouseEnter(object sender, EventArgs e) { timerStart(timerBtnAdd); }
+        private void btnImgStart_MouseEnter(object sender, EventArgs e) { timerStart(timerBtnStart); }
+        private void btnImgDelete_MouseEnter(object sender, EventArgs e) { timerStart(timerBtnDelete); }
+        private void btnImgEdit_MouseEnter(object sender, EventArgs e) { timerStart(timerBtnEdit); }
+        private void btnImgStop_MouseEnter(object sender, EventArgs e) { timerStart(timerBtnStop); }
+        private void btnImgStop_MouseLeave(object sender, EventArgs e) { timerStop(timerBtnStop, btnImgStop); }
+        private void btnImgDelete_MouseLeave(object sender, EventArgs e) { timerStop(timerBtnDelete, btnImgDelete); }
+        private void btnImgAdd_MouseLeave(object sender, EventArgs e) { timerStop(timerBtnAdd,btnImgAdd); }
+        private void btnImgStart_MouseLeave(object sender, EventArgs e) { timerStop(timerBtnStart, btnImgStart); }
+        private void btnImgEdit_MouseLeave(object sender, EventArgs e) { timerStop(timerBtnEdit, btnImgEdit); }
+        private void timerBtnStart_Tick(object sender, EventArgs e) { timerTick(timerBtnStart, btnImgStart); }
+        private void timerBtnStop_Tick(object sender, EventArgs e) { timerTick(timerBtnStop, btnImgStop); }
+        private void timerBtnAdd_Tick(object sender, EventArgs e) { timerTick(timerBtnAdd, btnImgAdd); }
+        private void timerBtnDelete_Tick(object sender, EventArgs e) { timerTick(timerBtnDelete, btnImgDelete); }
+        private void timerBtnEdit_Tick(object sender, EventArgs e) { timerTick(timerBtnEdit, btnImgEdit); }
+
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void обратнаяСвязьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Feedback feedBackForm = new Feedback();
+            feedBackForm.Show();
+        }
+
+        private void помощьПроектуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Donate donateForm = new Donate();
+            donateForm.Show();
+        }
+
+       
     }
 }

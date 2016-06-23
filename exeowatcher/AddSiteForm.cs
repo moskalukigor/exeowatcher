@@ -1,6 +1,7 @@
 ﻿using exeowatcher.classes;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 
 namespace exeowatcher
@@ -56,33 +57,36 @@ namespace exeowatcher
             this.Close();
         }
 
-        private void btnAddPage_Click(object sender, EventArgs e)
+        private void addPage(string page)
         {
+            if (page == "")
+                return;
+
             if (listBoxPages.Items.Count == 0)
             {
-                if (checkValidUrl(txtBoxPage.Text))
-                { 
-                    listBoxPages.Items.Add(txtBoxPage.Text);
+                if (checkValidUrl(page))
+                {
+                    listBoxPages.Items.Add(page);
                     return;
                 }
                 else
-                { 
+                {
                     MessageBox.Show("Некорректный адрес страницы. Пример: http://site.com/page");
                     return;
-                }      
+                }
             }
 
             for (int i = 0; i < listBoxPages.Items.Count; i++)
             {
-                if (listBoxPages.Items[i].ToString() == txtBoxPage.Text)
+                if (listBoxPages.Items[i].ToString() == page)
                 {
                     MessageBox.Show("Такая страница уже существует");
                 }
                 else
                 {
-                    if (checkValidUrl(txtBoxPage.Text))
+                    if (checkValidUrl(page))
                     {
-                        listBoxPages.Items.Add(txtBoxPage.Text);
+                        listBoxPages.Items.Add(page);
                         return;
                     }
                     else
@@ -92,6 +96,11 @@ namespace exeowatcher
                     }
                 }
             }
+        }
+
+        private void btnAddPage_Click(object sender, EventArgs e)
+        {
+            addPage(txtBoxPage.Text);
         }
 
         private void btnOk_Click(object sender, EventArgs e)
@@ -140,6 +149,20 @@ namespace exeowatcher
             return result;
         }
 
+        private void btnImportOfTxt_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text Files (.txt)|*.txt";
+            openFileDialog.FilterIndex = 0;
+            openFileDialog.Multiselect = false;
+            openFileDialog.ShowDialog();
 
+            using (StreamReader reader = new StreamReader(openFileDialog.FileName))
+            {
+                while(!reader.EndOfStream)
+                    addPage(reader.ReadLine());
+            }
+
+        }
     }
 }

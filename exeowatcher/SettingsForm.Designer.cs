@@ -67,6 +67,7 @@
             // 
             // tabPgSettingTag
             // 
+            this.tabPgSettingTag.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.tabPgSettingTag.Controls.Add(this.groupBoxChooseTag);
             this.tabPgSettingTag.Location = new System.Drawing.Point(4, 22);
             this.tabPgSettingTag.Name = "tabPgSettingTag";
@@ -74,11 +75,11 @@
             this.tabPgSettingTag.Size = new System.Drawing.Size(356, 196);
             this.tabPgSettingTag.TabIndex = 0;
             this.tabPgSettingTag.Text = "Настройка тегов";
-            this.tabPgSettingTag.UseVisualStyleBackColor = true;
             // 
             // groupBoxChooseTag
             // 
             this.groupBoxChooseTag.Controls.Add(this.checkedListBoxTags);
+            this.groupBoxChooseTag.ForeColor = System.Drawing.Color.DarkGray;
             this.groupBoxChooseTag.Location = new System.Drawing.Point(7, 7);
             this.groupBoxChooseTag.Name = "groupBoxChooseTag";
             this.groupBoxChooseTag.Size = new System.Drawing.Size(343, 183);
@@ -88,7 +89,9 @@
             // 
             // checkedListBoxTags
             // 
+            this.checkedListBoxTags.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.checkedListBoxTags.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.checkedListBoxTags.ForeColor = System.Drawing.Color.DarkGray;
             this.checkedListBoxTags.FormattingEnabled = true;
             this.checkedListBoxTags.Items.AddRange(new object[] {
             "h1",
@@ -198,6 +201,7 @@
             // groupBoxDescription
             // 
             this.groupBoxDescription.Controls.Add(this.lblDescription);
+            this.groupBoxDescription.ForeColor = System.Drawing.Color.DarkGray;
             this.groupBoxDescription.Location = new System.Drawing.Point(13, 241);
             this.groupBoxDescription.Name = "groupBoxDescription";
             this.groupBoxDescription.Size = new System.Drawing.Size(360, 99);
@@ -238,6 +242,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.ClientSize = new System.Drawing.Size(470, 347);
             this.Controls.Add(this.btnSettingsCancel);
             this.Controls.Add(this.btnSettingsOk);

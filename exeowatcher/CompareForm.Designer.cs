@@ -107,6 +107,7 @@
             // 
             // richTextBoxPrev
             // 
+            this.richTextBoxPrev.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.richTextBoxPrev.Location = new System.Drawing.Point(0, 0);
             this.richTextBoxPrev.Name = "richTextBoxPrev";
             this.richTextBoxPrev.Size = new System.Drawing.Size(784, 424);
@@ -126,6 +127,7 @@
             // 
             // richTextBoxCurrent
             // 
+            this.richTextBoxCurrent.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.richTextBoxCurrent.Location = new System.Drawing.Point(0, 0);
             this.richTextBoxCurrent.Name = "richTextBoxCurrent";
             this.richTextBoxCurrent.Size = new System.Drawing.Size(784, 424);
@@ -134,6 +136,7 @@
             // 
             // tabCompare
             // 
+            this.tabCompare.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.tabCompare.Controls.Add(this.lblRed);
             this.tabCompare.Controls.Add(this.lblGreen);
             this.tabCompare.Controls.Add(this.richTextBoxCompare);
@@ -143,10 +146,12 @@
             this.tabCompare.Size = new System.Drawing.Size(784, 427);
             this.tabCompare.TabIndex = 3;
             this.tabCompare.Text = "Сравнение";
-            this.tabCompare.UseVisualStyleBackColor = true;
             // 
             // richTextBoxCompare
             // 
+            this.richTextBoxCompare.BackColor = System.Drawing.Color.White;
+            this.richTextBoxCompare.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBoxCompare.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.richTextBoxCompare.Location = new System.Drawing.Point(0, 1);
             this.richTextBoxCompare.Name = "richTextBoxCompare";
             this.richTextBoxCompare.Size = new System.Drawing.Size(784, 404);

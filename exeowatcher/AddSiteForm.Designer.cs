@@ -60,6 +60,9 @@
             // 
             // txtBoxSite
             // 
+            this.txtBoxSite.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
+            this.txtBoxSite.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtBoxSite.ForeColor = System.Drawing.Color.DarkGray;
             this.txtBoxSite.Location = new System.Drawing.Point(7, 20);
             this.txtBoxSite.Name = "txtBoxSite";
             this.txtBoxSite.Size = new System.Drawing.Size(273, 20);
@@ -79,10 +82,13 @@
             // 
             // listBoxPages
             // 
+            this.listBoxPages.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
+            this.listBoxPages.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.listBoxPages.ForeColor = System.Drawing.Color.DarkGray;
             this.listBoxPages.FormattingEnabled = true;
             this.listBoxPages.Location = new System.Drawing.Point(7, 20);
             this.listBoxPages.Name = "listBoxPages";
-            this.listBoxPages.Size = new System.Drawing.Size(273, 121);
+            this.listBoxPages.Size = new System.Drawing.Size(273, 119);
             this.listBoxPages.TabIndex = 0;
             // 
             // groupBoxAddPage
@@ -110,6 +116,9 @@
             // 
             // txtBoxPage
             // 
+            this.txtBoxPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
+            this.txtBoxPage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtBoxPage.ForeColor = System.Drawing.Color.DarkGray;
             this.txtBoxPage.Location = new System.Drawing.Point(6, 19);
             this.txtBoxPage.Name = "txtBoxPage";
             this.txtBoxPage.Size = new System.Drawing.Size(192, 20);
@@ -136,6 +145,7 @@
             this.btnImportOfTxt.TabIndex = 3;
             this.btnImportOfTxt.Text = "Из файла txt";
             this.btnImportOfTxt.UseVisualStyleBackColor = true;
+            this.btnImportOfTxt.Click += new System.EventHandler(this.btnImportOfTxt_Click);
             // 
             // btnImportOfSiteMap
             // 
@@ -167,11 +177,11 @@
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
-            // AddSite
+            // AddSiteForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(82)))), ((int)(((byte)(82)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.ClientSize = new System.Drawing.Size(304, 399);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnCancel);
@@ -180,7 +190,7 @@
             this.Controls.Add(this.groupBoxPages);
             this.Controls.Add(this.groupBoxSite);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "AddSite";
+            this.Name = "AddSiteForm";
             this.Text = "AddSite";
             this.Load += new System.EventHandler(this.AddSite_Load);
             this.groupBoxSite.ResumeLayout(false);
