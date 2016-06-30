@@ -32,12 +32,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.создатьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.открытьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.сохранитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.сохранитьКакToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.закрытьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.закрытьВсёToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.помощьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,12 +43,6 @@
             this.помощьПроектуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.picBoxExeoLogo = new System.Windows.Forms.PictureBox();
-            this.btnImgEdit = new System.Windows.Forms.PictureBox();
-            this.btnImgStart = new System.Windows.Forms.PictureBox();
-            this.btnImgDelete = new System.Windows.Forms.PictureBox();
-            this.btnImgStop = new System.Windows.Forms.PictureBox();
-            this.btnImgAdd = new System.Windows.Forms.PictureBox();
             this.listViewSites = new System.Windows.Forms.ListView();
             this.colProject = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colRecentScan = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -71,15 +63,25 @@
             this.timerBtnAdd = new System.Windows.Forms.Timer(this.components);
             this.timerBtnDelete = new System.Windows.Forms.Timer(this.components);
             this.timerBtnEdit = new System.Windows.Forms.Timer(this.components);
+            this.openPicBox = new System.Windows.Forms.PictureBox();
+            this.createPicBox = new System.Windows.Forms.PictureBox();
+            this.picBoxExeoLogo = new System.Windows.Forms.PictureBox();
+            this.btnImgEdit = new System.Windows.Forms.PictureBox();
+            this.btnImgStart = new System.Windows.Forms.PictureBox();
+            this.btnImgDelete = new System.Windows.Forms.PictureBox();
+            this.btnImgStop = new System.Windows.Forms.PictureBox();
+            this.btnImgAdd = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.openPicBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.createPicBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxExeoLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnImgEdit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnImgStart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnImgDelete)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnImgStop)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnImgAdd)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -98,25 +100,24 @@
             // файлToolStripMenuItem
             // 
             this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.создатьToolStripMenuItem,
+            this.createToolStripMenuItem,
             this.открытьToolStripMenuItem,
-            this.сохранитьToolStripMenuItem,
-            this.сохранитьКакToolStripMenuItem,
-            this.закрытьToolStripMenuItem,
-            this.закрытьВсёToolStripMenuItem,
+            this.saveToolStripMenuItem,
+            this.SaveAsToolStripMenuItem,
             this.выходToolStripMenuItem});
             this.файлToolStripMenuItem.ForeColor = System.Drawing.Color.Gray;
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.файлToolStripMenuItem.Text = "Файл";
             // 
-            // создатьToolStripMenuItem
+            // createToolStripMenuItem
             // 
-            this.создатьToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.создатьToolStripMenuItem.Name = "создатьToolStripMenuItem";
-            this.создатьToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.создатьToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
-            this.создатьToolStripMenuItem.Text = "Создать";
+            this.createToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
+            this.createToolStripMenuItem.Name = "createToolStripMenuItem";
+            this.createToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.createToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.createToolStripMenuItem.Text = "Создать";
+            this.createToolStripMenuItem.Click += new System.EventHandler(this.createBicBox_Click);
             // 
             // открытьToolStripMenuItem
             // 
@@ -125,40 +126,26 @@
             this.открытьToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.открытьToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
             this.открытьToolStripMenuItem.Text = "Открыть";
+            this.открытьToolStripMenuItem.Click += new System.EventHandler(this.openPicBox_Click);
             // 
-            // сохранитьToolStripMenuItem
+            // saveToolStripMenuItem
             // 
-            this.сохранитьToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
-            this.сохранитьToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
-            this.сохранитьToolStripMenuItem.Text = "Сохранить";
+            this.saveToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.saveToolStripMenuItem.Text = "Сохранить";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
-            // сохранитьКакToolStripMenuItem
+            // SaveAsToolStripMenuItem
             // 
-            this.сохранитьКакToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.сохранитьКакToolStripMenuItem.Name = "сохранитьКакToolStripMenuItem";
-            this.сохранитьКакToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.SaveAsToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
+            this.SaveAsToolStripMenuItem.Name = "SaveAsToolStripMenuItem";
+            this.SaveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
-            this.сохранитьКакToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
-            this.сохранитьКакToolStripMenuItem.Text = "Сохранить как";
-            // 
-            // закрытьToolStripMenuItem
-            // 
-            this.закрытьToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.закрытьToolStripMenuItem.Name = "закрытьToolStripMenuItem";
-            this.закрытьToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.закрытьToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
-            this.закрытьToolStripMenuItem.Text = "Закрыть";
-            // 
-            // закрытьВсёToolStripMenuItem
-            // 
-            this.закрытьВсёToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.закрытьВсёToolStripMenuItem.Name = "закрытьВсёToolStripMenuItem";
-            this.закрытьВсёToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.W)));
-            this.закрытьВсёToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
-            this.закрытьВсёToolStripMenuItem.Text = "Закрыть всё";
+            this.SaveAsToolStripMenuItem.Size = new System.Drawing.Size(225, 22);
+            this.SaveAsToolStripMenuItem.Text = "Сохранить как";
+            this.SaveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
             // 
             // выходToolStripMenuItem
             // 
@@ -223,80 +210,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(804, 66);
             this.panel2.TabIndex = 10;
-            // 
-            // picBoxExeoLogo
-            // 
-            this.picBoxExeoLogo.Cursor = System.Windows.Forms.Cursors.Default;
-            this.picBoxExeoLogo.Image = ((System.Drawing.Image)(resources.GetObject("picBoxExeoLogo.Image")));
-            this.picBoxExeoLogo.Location = new System.Drawing.Point(560, -6);
-            this.picBoxExeoLogo.Name = "picBoxExeoLogo";
-            this.picBoxExeoLogo.Size = new System.Drawing.Size(244, 72);
-            this.picBoxExeoLogo.TabIndex = 5;
-            this.picBoxExeoLogo.TabStop = false;
-            // 
-            // btnImgEdit
-            // 
-            this.btnImgEdit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.btnImgEdit.Image = global::exeowatcher.Properties.Resources.edit;
-            this.btnImgEdit.Location = new System.Drawing.Point(409, 8);
-            this.btnImgEdit.Name = "btnImgEdit";
-            this.btnImgEdit.Size = new System.Drawing.Size(145, 50);
-            this.btnImgEdit.TabIndex = 16;
-            this.btnImgEdit.TabStop = false;
-            this.btnImgEdit.Click += new System.EventHandler(this.btnImgEdit_Click);
-            this.btnImgEdit.MouseEnter += new System.EventHandler(this.btnImgEdit_MouseEnter);
-            this.btnImgEdit.MouseLeave += new System.EventHandler(this.btnImgEdit_MouseLeave);
-            // 
-            // btnImgStart
-            // 
-            this.btnImgStart.Image = global::exeowatcher.Properties.Resources.play;
-            this.btnImgStart.Location = new System.Drawing.Point(3, 8);
-            this.btnImgStart.Name = "btnImgStart";
-            this.btnImgStart.Size = new System.Drawing.Size(51, 50);
-            this.btnImgStart.TabIndex = 12;
-            this.btnImgStart.TabStop = false;
-            this.btnImgStart.Click += new System.EventHandler(this.btnImgStart_Click);
-            this.btnImgStart.MouseEnter += new System.EventHandler(this.btnImgStart_MouseEnter);
-            this.btnImgStart.MouseLeave += new System.EventHandler(this.btnImgStart_MouseLeave);
-            // 
-            // btnImgDelete
-            // 
-            this.btnImgDelete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.btnImgDelete.Image = global::exeowatcher.Properties.Resources.delete;
-            this.btnImgDelete.Location = new System.Drawing.Point(263, 8);
-            this.btnImgDelete.Name = "btnImgDelete";
-            this.btnImgDelete.Size = new System.Drawing.Size(140, 50);
-            this.btnImgDelete.TabIndex = 15;
-            this.btnImgDelete.TabStop = false;
-            this.btnImgDelete.Click += new System.EventHandler(this.btnImgDelete_Click);
-            this.btnImgDelete.MouseEnter += new System.EventHandler(this.btnImgDelete_MouseEnter);
-            this.btnImgDelete.MouseLeave += new System.EventHandler(this.btnImgDelete_MouseLeave);
-            // 
-            // btnImgStop
-            // 
-            this.btnImgStop.Image = global::exeowatcher.Properties.Resources.stop;
-            this.btnImgStop.Location = new System.Drawing.Point(60, 8);
-            this.btnImgStop.Name = "btnImgStop";
-            this.btnImgStop.Size = new System.Drawing.Size(51, 50);
-            this.btnImgStop.TabIndex = 13;
-            this.btnImgStop.TabStop = false;
-            this.btnImgStop.Click += new System.EventHandler(this.btnImgStop_Click);
-            this.btnImgStop.MouseEnter += new System.EventHandler(this.btnImgStop_MouseEnter);
-            this.btnImgStop.MouseLeave += new System.EventHandler(this.btnImgStop_MouseLeave);
-            // 
-            // btnImgAdd
-            // 
-            this.btnImgAdd.BackgroundImage = global::exeowatcher.Properties.Resources.add;
-            this.btnImgAdd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.btnImgAdd.Image = global::exeowatcher.Properties.Resources.add;
-            this.btnImgAdd.Location = new System.Drawing.Point(117, 8);
-            this.btnImgAdd.Name = "btnImgAdd";
-            this.btnImgAdd.Size = new System.Drawing.Size(140, 50);
-            this.btnImgAdd.TabIndex = 14;
-            this.btnImgAdd.TabStop = false;
-            this.btnImgAdd.Click += new System.EventHandler(this.btnImgAdd_Click);
-            this.btnImgAdd.MouseEnter += new System.EventHandler(this.btnImgAdd_MouseEnter);
-            this.btnImgAdd.MouseLeave += new System.EventHandler(this.btnImgAdd_MouseLeave);
             // 
             // listViewSites
             // 
@@ -414,12 +327,108 @@
             // 
             this.timerBtnEdit.Tick += new System.EventHandler(this.timerBtnEdit_Tick);
             // 
+            // openPicBox
+            // 
+            this.openPicBox.Image = global::exeowatcher.Properties.Resources.Open;
+            this.openPicBox.Location = new System.Drawing.Point(12, 209);
+            this.openPicBox.Name = "openPicBox";
+            this.openPicBox.Size = new System.Drawing.Size(135, 50);
+            this.openPicBox.TabIndex = 13;
+            this.openPicBox.TabStop = false;
+            this.openPicBox.Click += new System.EventHandler(this.openPicBox_Click);
+            // 
+            // createPicBox
+            // 
+            this.createPicBox.Image = global::exeowatcher.Properties.Resources.create;
+            this.createPicBox.Location = new System.Drawing.Point(12, 138);
+            this.createPicBox.Name = "createPicBox";
+            this.createPicBox.Size = new System.Drawing.Size(135, 50);
+            this.createPicBox.TabIndex = 12;
+            this.createPicBox.TabStop = false;
+            this.createPicBox.Click += new System.EventHandler(this.createBicBox_Click);
+            // 
+            // picBoxExeoLogo
+            // 
+            this.picBoxExeoLogo.Cursor = System.Windows.Forms.Cursors.Default;
+            this.picBoxExeoLogo.Image = ((System.Drawing.Image)(resources.GetObject("picBoxExeoLogo.Image")));
+            this.picBoxExeoLogo.Location = new System.Drawing.Point(560, -6);
+            this.picBoxExeoLogo.Name = "picBoxExeoLogo";
+            this.picBoxExeoLogo.Size = new System.Drawing.Size(244, 72);
+            this.picBoxExeoLogo.TabIndex = 5;
+            this.picBoxExeoLogo.TabStop = false;
+            // 
+            // btnImgEdit
+            // 
+            this.btnImgEdit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.btnImgEdit.Image = global::exeowatcher.Properties.Resources.edit;
+            this.btnImgEdit.Location = new System.Drawing.Point(409, 8);
+            this.btnImgEdit.Name = "btnImgEdit";
+            this.btnImgEdit.Size = new System.Drawing.Size(145, 50);
+            this.btnImgEdit.TabIndex = 16;
+            this.btnImgEdit.TabStop = false;
+            this.btnImgEdit.Click += new System.EventHandler(this.btnImgEdit_Click);
+            this.btnImgEdit.MouseEnter += new System.EventHandler(this.btnImgEdit_MouseEnter);
+            this.btnImgEdit.MouseLeave += new System.EventHandler(this.btnImgEdit_MouseLeave);
+            // 
+            // btnImgStart
+            // 
+            this.btnImgStart.Image = global::exeowatcher.Properties.Resources.play;
+            this.btnImgStart.Location = new System.Drawing.Point(3, 8);
+            this.btnImgStart.Name = "btnImgStart";
+            this.btnImgStart.Size = new System.Drawing.Size(51, 50);
+            this.btnImgStart.TabIndex = 12;
+            this.btnImgStart.TabStop = false;
+            this.btnImgStart.Click += new System.EventHandler(this.btnImgStart_Click);
+            this.btnImgStart.MouseEnter += new System.EventHandler(this.btnImgStart_MouseEnter);
+            this.btnImgStart.MouseLeave += new System.EventHandler(this.btnImgStart_MouseLeave);
+            // 
+            // btnImgDelete
+            // 
+            this.btnImgDelete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.btnImgDelete.Image = global::exeowatcher.Properties.Resources.delete;
+            this.btnImgDelete.Location = new System.Drawing.Point(263, 8);
+            this.btnImgDelete.Name = "btnImgDelete";
+            this.btnImgDelete.Size = new System.Drawing.Size(140, 50);
+            this.btnImgDelete.TabIndex = 15;
+            this.btnImgDelete.TabStop = false;
+            this.btnImgDelete.Click += new System.EventHandler(this.btnImgDelete_Click);
+            this.btnImgDelete.MouseEnter += new System.EventHandler(this.btnImgDelete_MouseEnter);
+            this.btnImgDelete.MouseLeave += new System.EventHandler(this.btnImgDelete_MouseLeave);
+            // 
+            // btnImgStop
+            // 
+            this.btnImgStop.Image = global::exeowatcher.Properties.Resources.stop;
+            this.btnImgStop.Location = new System.Drawing.Point(60, 8);
+            this.btnImgStop.Name = "btnImgStop";
+            this.btnImgStop.Size = new System.Drawing.Size(51, 50);
+            this.btnImgStop.TabIndex = 13;
+            this.btnImgStop.TabStop = false;
+            this.btnImgStop.Click += new System.EventHandler(this.btnImgStop_Click);
+            this.btnImgStop.MouseEnter += new System.EventHandler(this.btnImgStop_MouseEnter);
+            this.btnImgStop.MouseLeave += new System.EventHandler(this.btnImgStop_MouseLeave);
+            // 
+            // btnImgAdd
+            // 
+            this.btnImgAdd.BackgroundImage = global::exeowatcher.Properties.Resources.add;
+            this.btnImgAdd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.btnImgAdd.Image = global::exeowatcher.Properties.Resources.add;
+            this.btnImgAdd.Location = new System.Drawing.Point(117, 8);
+            this.btnImgAdd.Name = "btnImgAdd";
+            this.btnImgAdd.Size = new System.Drawing.Size(140, 50);
+            this.btnImgAdd.TabIndex = 14;
+            this.btnImgAdd.TabStop = false;
+            this.btnImgAdd.Click += new System.EventHandler(this.btnImgAdd_Click);
+            this.btnImgAdd.MouseEnter += new System.EventHandler(this.btnImgAdd_MouseEnter);
+            this.btnImgAdd.MouseLeave += new System.EventHandler(this.btnImgAdd_MouseLeave);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.ClientSize = new System.Drawing.Size(816, 566);
+            this.Controls.Add(this.openPicBox);
+            this.Controls.Add(this.createPicBox);
             this.Controls.Add(this.listViewSites);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.menuStrip1);
@@ -432,13 +441,15 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel2.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.openPicBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.createPicBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxExeoLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnImgEdit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnImgStart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnImgDelete)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnImgStop)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnImgAdd)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -447,12 +458,10 @@
         #endregion
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem создатьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem открытьToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem сохранитьToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem сохранитьКакToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem закрытьToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem закрытьВсёToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SaveAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem помощьToolStripMenuItem;
@@ -486,6 +495,8 @@
         private System.Windows.Forms.Timer timerBtnDelete;
         private System.Windows.Forms.Timer timerBtnEdit;
         private System.Windows.Forms.ColumnHeader colProject;
+        private System.Windows.Forms.PictureBox createPicBox;
+        private System.Windows.Forms.PictureBox openPicBox;
     }
 }
 

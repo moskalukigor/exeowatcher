@@ -164,6 +164,15 @@
   <ItemGroup>
     <None Include="Graphics\startup\startup.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Graphics\ctrl_buttons\create.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Graphics\ctrl_buttons\Open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Graphics\ctrl_buttons\pause.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

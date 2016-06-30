@@ -157,6 +157,9 @@ namespace exeowatcher
             openFileDialog.Multiselect = false;
             openFileDialog.ShowDialog();
 
+            if (openFileDialog.FileName == "")
+                return;
+
             using (StreamReader reader = new StreamReader(openFileDialog.FileName))
             {
                 while(!reader.EndOfStream)
@@ -164,5 +167,7 @@ namespace exeowatcher
             }
 
         }
+
+
     }
 }

@@ -21,6 +21,9 @@ namespace exeowatcher
         private List<Site> sites = new List<Site>();
         public List<string> tags = new List<string>();
         public string twoFileSuffix = "_2";
+        public string saveDir = "saved";
+        private string nameLastSave = "";
+
 
         //Анимация цвета кнопок
         Color oldColor;
@@ -48,6 +51,13 @@ namespace exeowatcher
                 tags = JsonConvert.DeserializeObject<List<string>>(json);
                 
             }
+
+            listViewSites.Visible = false;
+            btnImgStart.Enabled = false;
+            btnImgStop.Enabled = false;
+            btnImgAdd.Enabled = false;
+            btnImgDelete.Enabled = false;
+            btnImgEdit.Enabled = false;
         }
 
         private List<string> getHTML(string urlAddress)
@@ -84,7 +94,7 @@ namespace exeowatcher
             return null;
         }
 
-        private void fillSiteHtmlToFile(string urlAddress, int indexList)
+        public void preparationToWrite(string urlAddress, int indexList)
         {
             List<string> content = getHTML(urlAddress);
 
@@ -92,14 +102,12 @@ namespace exeowatcher
             string fileName = deleteInvalidChars(sites[indexList].pages[index].pageName);
             string parentDir = deleteInvalidChars(sites[indexList].site);
 
+            writeSiteToFile( fileName, parentDir, index, indexList, content);
+           
+        }
 
-            if (content == null)
-            {
-                MessageBox.Show("Site: " + urlAddress + "\terror scan");
-                return;
-            }
-
-
+        public void writeSiteToFile(string fileName, string parentDir, int index, int indexList, List<string> content)
+        {
             switch (checkEmptyFile(fileName, parentDir))
             {
                 case "NotExist":
@@ -132,6 +140,7 @@ namespace exeowatcher
 
         public void updateStatusSite(int indexList, int indexSite)
         {
+            sites[indexList].latestScan = DateTime.Now;
             listViewSites.Items[indexList] = (new ListViewItem(new string[] { sites[indexList].site, DateTime.Now.ToString(), sites[indexList].pages.Count.ToString(), "X", "X", "X", "X", "X", "X", "X", }));
         }
 
@@ -348,6 +357,15 @@ namespace exeowatcher
             listViewSites.Items.Add(new ListViewItem(new string[] { site, "не сканировался", pages.Count.ToString(), "X", "X", "X", "X", "X", "X", "X", }));
         }
 
+        internal void AddSiteOfFile(Site site)
+        {
+            if (!Directory.Exists(deleteInvalidChars(site.site)))
+            {
+                Directory.CreateDirectory(deleteInvalidChars(site.site));
+            }
+            listViewSites.Items.Add(new ListViewItem(new string[] { site.site, site.latestScan.ToString() , site.pages.Count.ToString(), "X", "X", "X", "X", "X", "X", "X", }));
+        }
+
         internal void EditSite(string site, List<Page> pages, int indexSites, int indexListView)
         {
             if (site != sites[indexSites].site && !Directory.Exists(deleteInvalidChars(site)))
@@ -405,18 +423,41 @@ namespace exeowatcher
                 MessageBox.Show("Отметьте галочкой всего лишь один сайт");
                 return;
             }
-            
+
+
+
+            int indexList = 0;
+            string fileName = "";
 
             for (int i = 0; i < listViewSites.Items.Count; i++)
             {
-                if (listViewSites.Items[i].Checked)
+                if (!listViewSites.Items[i].Checked)
                 {
-                    string fileName = deleteInvalidChars(sites[i].pages[0].pageName);
-                    string dirName = deleteInvalidChars(sites[i].site);
+                    continue;
+                }
+                for (int j = 0; j < sites[i].pages.Count; j++)
+                {
+                    var indexItemList = listViewSites.FindItemWithText(sites[i].site);
+                    indexList = indexItemList.Index;
+                    int index = sites[indexList].pages.FindIndex(x => x.pageName == sites[i].pages[j].pageName);
+                    fileName = deleteInvalidChars(sites[indexList].pages[index].pageName);
+                    string parentDir = deleteInvalidChars(sites[indexList].site);
+
+                    if (indexItemList != null)
+                        compareCode(parentDir, fileName, index, indexList);
+                }
+            }
+
+            string json = JsonConvert.SerializeObject(sites, Formatting.Indented);
+            File.WriteAllText("info.json", json);
+            
+
+                    fileName = deleteInvalidChars(sites[indexList].pages[0].pageName);
+                    string dirName = deleteInvalidChars(sites[indexList].site);
 
                     if (File.Exists(dirName + "/" + fileName + ".txt") && File.Exists(dirName + "/" + fileName + twoFileSuffix + ".txt"))
                     {
-                        CompareForm cf = new CompareForm(sites[i].site);
+                        CompareForm cf = new CompareForm(sites[indexList].site);
                         cf.Owner = this;
                         cf.Show();
                     }
@@ -424,10 +465,7 @@ namespace exeowatcher
                     {
                         MessageBox.Show("Сначала просканируйте сайт, чтобы посмотреть различия");
                         return;
-                    }
-
-                }
-            }         
+                    }       
         }
 
 
@@ -471,14 +509,10 @@ namespace exeowatcher
                 {
                     var indexItemList = listViewSites.FindItemWithText(sites[i].site);
                     if (indexItemList != null)
-                        fillSiteHtmlToFile(sites[i].pages[j].pageName, indexItemList.Index);
+                        preparationToWrite(sites[i].pages[j].pageName, indexItemList.Index);
                 }
             }
 
-
-
-            string json = JsonConvert.SerializeObject(sites, Formatting.Indented);
-            File.WriteAllText("info.json", json);
         }
 
         private void btnImgStop_Click(object sender, EventArgs e)
@@ -611,6 +645,116 @@ namespace exeowatcher
             donateForm.Show();
         }
 
-       
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (listViewSites.Items.Count == 0)
+            {
+                MessageBox.Show("В списке нету сайтов для сохранения");
+                return;
+            }
+
+            if (!Directory.Exists(saveDir))
+            {
+                Directory.CreateDirectory(saveDir);
+            }
+
+            if(nameLastSave == "")
+            {
+                nameLastSave = saveDir + "/" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Year + "_"+
+                                                DateTime.Now.Hour + "_"+ DateTime.Now.Minute + "_"+ DateTime.Now.Second + ".exeo";
+            }
+
+            string file = nameLastSave;
+
+            string json = JsonConvert.SerializeObject(sites, Formatting.Indented);
+            File.WriteAllText(file, json);
+
+        }
+
+        private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (listViewSites.Items.Count == 0)
+            {
+                MessageBox.Show("В списке нету сайтов для сохранения");
+                return;
+            }
+
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Exeo Files |*.exeo";
+            saveFileDialog.InitialDirectory = saveDir;
+            saveFileDialog.FilterIndex = 0;
+            saveFileDialog.ShowDialog();
+
+
+            if (saveFileDialog.FileName == "")
+                return;
+
+            string file = saveFileDialog.FileName;
+
+            string json = JsonConvert.SerializeObject(sites, Formatting.Indented);
+            File.WriteAllText(file, json);
+        }
+
+        private void createBicBox_Click(object sender, EventArgs e)
+        {
+            createPicBox.Visible = false;
+            openPicBox.Visible = false;
+            listViewSites.Visible = true;
+            btnImgStart.Enabled = true;
+            btnImgStop.Enabled = true;
+            btnImgAdd.Enabled = true;
+            btnImgDelete.Enabled = true;
+            btnImgEdit.Enabled = true;
+        }
+
+        private void openPicBox_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Exeo Files |*.exeo";
+            openFileDialog.InitialDirectory = saveDir;
+            openFileDialog.FilterIndex = 0;
+            openFileDialog.Multiselect = false;
+            openFileDialog.ShowDialog();
+
+            if (openFileDialog.FileName == "")
+                return;
+
+            nameLastSave = openFileDialog.FileName;
+
+            createPicBox.Visible = false;
+            openPicBox.Visible = false;
+            listViewSites.Visible = true;
+            btnImgStart.Enabled = true;
+            btnImgStop.Enabled = true;
+            btnImgAdd.Enabled = true;
+            btnImgDelete.Enabled = true;
+            btnImgEdit.Enabled = true;
+
+
+            string json = "";
+            using (StreamReader sr = new StreamReader(File.Open(openFileDialog.FileName, FileMode.Open)))
+            {
+                json += sr.ReadToEnd();
+            }
+
+            List<Site> sitesJson = JsonConvert.DeserializeObject<List<Site>>(json);
+
+            sites = sitesJson;
+            listViewSites.Items.Clear();
+
+            for (int i = 0; i < sitesJson.Count; i++)
+            {
+                AddSiteOfFile(sitesJson[i]);
+            }
+
+
+
+
+
+
+
+        }
     }
 }

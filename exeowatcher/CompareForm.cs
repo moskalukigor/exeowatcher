@@ -30,6 +30,11 @@ namespace exeowatcher
         private void CompareForm_Load(object sender, EventArgs e)
         {
             main = this.Owner as MainForm;
+
+            
+
+
+
             string json = "";
 
             using (StreamReader sr = new StreamReader(File.Open("info.json", FileMode.Open)))
@@ -44,6 +49,8 @@ namespace exeowatcher
             {
                 listViewSites.Items.Add(new ListViewItem(new string[] { sitesInfo[index].pages[i].pageName, sitesInfo[index].pages[i].countChanges.ToString()}));
             }
+
+            
         }
 
         private void listViewSites_DoubleClick(object sender, EventArgs e)
@@ -69,6 +76,7 @@ namespace exeowatcher
 
             richTextBoxPrev.Text = main.ListToStr(textPrevList);
             richTextBoxCurrent.Text = main.ListToStr(textCurrList);
+            richTextBoxCompare.Text = "";
 
             main.compare(this.richTextBoxCompare,ref countChanges, tags_prevText, tags_currText);
         }
