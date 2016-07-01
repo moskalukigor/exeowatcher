@@ -64,7 +64,16 @@ namespace exeowatcher
         {
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(urlAddress);
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            HttpWebResponse response = null;
+            try
+            {
+                response = (HttpWebResponse)request.GetResponse();
+            }
+            catch (System.Net.WebException)
+            {
+                MessageBox.Show(urlAddress + "\tНе отвечает");
+                return null;
+            }
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
@@ -97,6 +106,11 @@ namespace exeowatcher
         public void preparationToWrite(string urlAddress, int indexList)
         {
             List<string> content = getHTML(urlAddress);
+
+            if (content == null)
+            {
+                return;
+            }
 
             int index = sites[indexList].pages.FindIndex(x => x.pageName == urlAddress);
             string fileName = deleteInvalidChars(sites[indexList].pages[index].pageName);
@@ -141,6 +155,7 @@ namespace exeowatcher
         public void updateStatusSite(int indexList, int indexSite)
         {
             sites[indexList].latestScan = DateTime.Now;
+            //sites[indexList].tags.
             listViewSites.Items[indexList] = (new ListViewItem(new string[] { sites[indexList].site, DateTime.Now.ToString(), sites[indexList].pages.Count.ToString(), "X", "X", "X", "X", "X", "X", "X", }));
         }
 
@@ -204,6 +219,8 @@ namespace exeowatcher
 
             compare(null, ref countChanges, tags_prevText, tags_currText);
 
+            //Tags tags = new Tags(sd);
+
             sites[indexList].pages[indexPage].countChanges = countChanges;
             updateStatusSite(indexList, indexPage);
 
@@ -212,16 +229,44 @@ namespace exeowatcher
         public string parseHTML(string text)
         {
             string tagsText = "";
+            CQ dom = text;
+            CQ tg = null;
+
+            //string test = "";
 
             for (int i = 0; i < tags.Count; i++)
             {
-                CQ dom = text;
-                CQ tg = dom[tags[i]];
+                
+
+                switch (tags[i])
+                {
+                    case "Description":
+                            tg = dom["meta[name=description]"];
+                        break;
+
+                    case "Keywords":
+                            tg = dom["meta[name=keywords]"];
+                        break;
+
+                    default:
+                            tg = dom[tags[i]];
+                        break;
+
+                }
+
+
+                
 
                 tagsText += tags[i] + ":\n";
                 for (int j = 0; j < tg.ToList().Count(); j++)
                 {
-                    tagsText += tg[j].FirstChild + "\n";
+                    switch (tags[i])
+                    {
+                        case "Description": tagsText += tg[j].GetAttribute("content") + "\n";  break;
+                        case "Keywords": tagsText += tg[j].GetAttribute("content") + "\n"; break;
+                        default: tagsText += tg[j].FirstChild + "\n"; break;
+                    }
+                    
                 }
             }
 
@@ -353,7 +398,7 @@ namespace exeowatcher
             {
                 Directory.CreateDirectory(deleteInvalidChars(site));
             }
-            sites.Add(new Site(site, new DateTime(1990, 01, 01), pages.Count, pages));
+            sites.Add(new Site(site, new DateTime(1990, 01, 01), pages.Count, pages, new Tags()));
             listViewSites.Items.Add(new ListViewItem(new string[] { site, "не сканировался", pages.Count.ToString(), "X", "X", "X", "X", "X", "X", "X", }));
         }
 
@@ -378,7 +423,7 @@ namespace exeowatcher
                 deleteDirectory(prevDir);
                 //Directory.Delete(prevDir);
             }
-            sites[indexSites] = new Site(site, new DateTime(1990, 01, 01), pages.Count, pages);
+            sites[indexSites] = new Site(site, new DateTime(1990, 01, 01), pages.Count, pages, new Tags());
             listViewSites.Items[indexListView] = (new ListViewItem(new string[] { site, "не сканировался", pages.Count.ToString(), "X", "X", "X", "X", "X", "X", "X", }));
         }
 
