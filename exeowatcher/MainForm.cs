@@ -14,7 +14,7 @@ using exeowatcher.classes;
 using Newtonsoft.Json;
 using System.Runtime.InteropServices;
 using System.Threading;
-
+using xNet;
 
 namespace exeowatcher
 {
@@ -24,6 +24,7 @@ namespace exeowatcher
 
 
         List<Site> sites = new List<Site>();
+        public List<Proxy> proxys = new List<Proxy>();
         public List<string> tags = new List<string>();
         public string twoFileSuffix = "_2";
         public string saveDir = "saved";
@@ -57,7 +58,11 @@ namespace exeowatcher
                     json += sr.ReadToEnd();
                 }
 
-                tags = JsonConvert.DeserializeObject<List<string>>(json);
+                Settings settings;
+                settings = JsonConvert.DeserializeObject<Settings>(json);
+
+                tags = settings.tags;
+                proxys = settings.proxys;
                 
             }
 
@@ -69,52 +74,37 @@ namespace exeowatcher
             btnImgEdit.Enabled = false;
         }
 
-        private List<string> getHTML(string urlAddress)
+        public ListView getListViewSites()
         {
+            return listViewSites;
+        }
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(urlAddress);
-            HttpWebResponse response = null;
-            try
+        private string getHTML(string urlAddress)
+        {
+            using (var request = new HttpRequest())
             {
-                response = (HttpWebResponse)request.GetResponse();
-            }
-            catch (System.Net.WebException)
-            {
-                MessageBox.Show(urlAddress + "\tНе отвечает");
-                return null;
-            }
-
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                Stream receiveStream = response.GetResponseStream();
-                StreamReader readStream = null;
-
-                if (response.CharacterSet == null)
+                request.UserAgent = Http.ChromeUserAgent();
+                HttpResponse response;
+                string content = "";
+                try
                 {
-                    readStream = new StreamReader(receiveStream);
+                    response = request.Get(urlAddress);
+                    content = response.ToString();
+                    return content;
                 }
-                else
+                catch(HttpException ex)
                 {
-                    readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
+                    MessageBox.Show(urlAddress + "\tНе отвечает");
+                    return null;
                 }
 
-                List<string> data = new List<string>();
-                while (!readStream.EndOfStream)
-                {
-                    data.Add(readStream.ReadLine());
-                }
-
-                response.Close();
-                readStream.Close();
-
-                return data;
-            }
+            }   
             return null;
         }
 
         public void preparationToWrite(string urlAddress, int indexList)
         {
-            List<string> content = getHTML(urlAddress);
+            string content = getHTML(urlAddress);
 
             if (content == null)
             {
@@ -129,7 +119,7 @@ namespace exeowatcher
            
         }
 
-        public void writeSiteToFile(string fileName, string parentDir, int index, int indexList, List<string> content)
+        public void writeSiteToFile(string fileName, string parentDir, int index, int indexList, string content)
         {
             switch (checkEmptyFile(fileName, parentDir))
             {
@@ -220,8 +210,8 @@ namespace exeowatcher
                 return;
             }
 
-            string prevText = ListToStr(readFromFile(fileName, parentDir));
-            string currText = ListToStr(readFromFile(fileName + twoFileSuffix, parentDir));
+            string prevText = readFromFile(fileName, parentDir);
+            string currText = readFromFile(fileName + twoFileSuffix, parentDir);
 
             string tags_prevText = "", tags_currText = "";
             int countChanges = 0;
@@ -360,7 +350,7 @@ namespace exeowatcher
             box.SelectionLength = 0; // clear
         }
 
-        private void writeToFile(List<string> content, string fileName, string parentDir)
+        private void writeToFile(string content, string fileName, string parentDir)
         {
             if(content == null || fileName == null || parentDir == null)
             {
@@ -371,7 +361,7 @@ namespace exeowatcher
             {
                 Directory.CreateDirectory(parentDir);
             }
-            File.WriteAllLines(parentDir + "/" + fileName + ".txt", content);
+            File.WriteAllText(parentDir + "/" + fileName + ".txt", content);
         }
 
         public string ListToStr(List<string> array)
@@ -390,10 +380,10 @@ namespace exeowatcher
             return builder.ToString();
         }
 
-        public List<string> readFromFile(string fileName, string parentDir)
+        public string readFromFile(string fileName, string parentDir)
         {
 
-            List<string> listLines = new List<string>();
+            string text = "";
 
             if (parentDir != null)
             {
@@ -402,7 +392,7 @@ namespace exeowatcher
                     using (StreamReader sr = new StreamReader(File.Open(parentDir + "/" + fileName + ".txt", FileMode.Open)))
                     {
                         while (!sr.EndOfStream)
-                            listLines.Add(sr.ReadLine());
+                            text += sr.ReadLine() + "\n";
                     }
                 }
                 catch(FileNotFoundException ex)
@@ -418,7 +408,7 @@ namespace exeowatcher
                     using (StreamReader sr = new StreamReader(File.Open(fileName + ".txt", FileMode.Open)))
                     {
                         while (!sr.EndOfStream)
-                            listLines.Add(sr.ReadLine());
+                            text += sr.ReadLine() + "\n";
                     }
                 }
                 catch (FileNotFoundException ex)
@@ -427,8 +417,7 @@ namespace exeowatcher
                     return null;
                 }
             }
-
-            return listLines;
+            return text;
         }
 
         private DateTime getLatestScan(int index)
@@ -504,7 +493,7 @@ namespace exeowatcher
 
         private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SettingsForm sf = new SettingsForm(tags);
+            SettingsForm sf = new SettingsForm(tags, proxys);
             sf.Owner = this;
             sf.Show();
         }

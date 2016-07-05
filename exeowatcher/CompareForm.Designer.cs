@@ -39,9 +39,9 @@
             this.tabCurrent = new System.Windows.Forms.TabPage();
             this.richTextBoxCurrent = new System.Windows.Forms.RichTextBox();
             this.tabCompare = new System.Windows.Forms.TabPage();
-            this.richTextBoxCompare = new System.Windows.Forms.RichTextBox();
-            this.lblGreen = new System.Windows.Forms.Label();
             this.lblRed = new System.Windows.Forms.Label();
+            this.lblGreen = new System.Windows.Forms.Label();
+            this.richTextBoxCompare = new System.Windows.Forms.RichTextBox();
             this.tabControlCompare.SuspendLayout();
             this.tabSelect.SuspendLayout();
             this.tabPrev.SuspendLayout();
@@ -107,9 +107,11 @@
             // 
             // richTextBoxPrev
             // 
+            this.richTextBoxPrev.BackColor = System.Drawing.SystemColors.ControlLight;
             this.richTextBoxPrev.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.richTextBoxPrev.Location = new System.Drawing.Point(0, 0);
             this.richTextBoxPrev.Name = "richTextBoxPrev";
+            this.richTextBoxPrev.ReadOnly = true;
             this.richTextBoxPrev.Size = new System.Drawing.Size(784, 424);
             this.richTextBoxPrev.TabIndex = 0;
             this.richTextBoxPrev.Text = "";
@@ -127,9 +129,11 @@
             // 
             // richTextBoxCurrent
             // 
+            this.richTextBoxCurrent.BackColor = System.Drawing.SystemColors.ControlLight;
             this.richTextBoxCurrent.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.richTextBoxCurrent.Location = new System.Drawing.Point(0, 0);
             this.richTextBoxCurrent.Name = "richTextBoxCurrent";
+            this.richTextBoxCurrent.ReadOnly = true;
             this.richTextBoxCurrent.Size = new System.Drawing.Size(784, 424);
             this.richTextBoxCurrent.TabIndex = 1;
             this.richTextBoxCurrent.Text = "";
@@ -147,16 +151,15 @@
             this.tabCompare.TabIndex = 3;
             this.tabCompare.Text = "Сравнение";
             // 
-            // richTextBoxCompare
+            // lblRed
             // 
-            this.richTextBoxCompare.BackColor = System.Drawing.Color.White;
-            this.richTextBoxCompare.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBoxCompare.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.richTextBoxCompare.Location = new System.Drawing.Point(0, 1);
-            this.richTextBoxCompare.Name = "richTextBoxCompare";
-            this.richTextBoxCompare.Size = new System.Drawing.Size(784, 404);
-            this.richTextBoxCompare.TabIndex = 1;
-            this.richTextBoxCompare.Text = "";
+            this.lblRed.AutoSize = true;
+            this.lblRed.ForeColor = System.Drawing.Color.Red;
+            this.lblRed.Location = new System.Drawing.Point(154, 408);
+            this.lblRed.Name = "lblRed";
+            this.lblRed.Size = new System.Drawing.Size(131, 13);
+            this.lblRed.TabIndex = 3;
+            this.lblRed.Text = "Красный цвет - Удалено";
             // 
             // lblGreen
             // 
@@ -168,21 +171,23 @@
             this.lblGreen.TabIndex = 2;
             this.lblGreen.Text = "Зелёный цвет - Добавлено";
             // 
-            // lblRed
+            // richTextBoxCompare
             // 
-            this.lblRed.AutoSize = true;
-            this.lblRed.ForeColor = System.Drawing.Color.Red;
-            this.lblRed.Location = new System.Drawing.Point(154, 408);
-            this.lblRed.Name = "lblRed";
-            this.lblRed.Size = new System.Drawing.Size(131, 13);
-            this.lblRed.TabIndex = 3;
-            this.lblRed.Text = "Красный цвет - Удалено";
+            this.richTextBoxCompare.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.richTextBoxCompare.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBoxCompare.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
+            this.richTextBoxCompare.Location = new System.Drawing.Point(0, 1);
+            this.richTextBoxCompare.Name = "richTextBoxCompare";
+            this.richTextBoxCompare.ReadOnly = true;
+            this.richTextBoxCompare.Size = new System.Drawing.Size(784, 404);
+            this.richTextBoxCompare.TabIndex = 1;
+            this.richTextBoxCompare.Text = "";
             // 
             // CompareForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(82)))), ((int)(((byte)(82)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.ClientSize = new System.Drawing.Size(816, 477);
             this.Controls.Add(this.tabControlCompare);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

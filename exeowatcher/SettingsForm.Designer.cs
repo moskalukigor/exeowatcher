@@ -38,21 +38,23 @@
             this.btnSettingsOfFile = new System.Windows.Forms.Button();
             this.btnSettingsOfBuffer = new System.Windows.Forms.Button();
             this.groupBoxProxy = new System.Windows.Forms.GroupBox();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.listViewProxy = new System.Windows.Forms.ListView();
             this.columnIp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnPort = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnLogin = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnPassword = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.groupBoxDescription = new System.Windows.Forms.GroupBox();
-            this.lblDescription = new System.Windows.Forms.Label();
             this.btnSettingsOk = new System.Windows.Forms.Button();
             this.btnSettingsCancel = new System.Windows.Forms.Button();
+            this.radioBtnHTTP = new System.Windows.Forms.RadioButton();
+            this.radioBtnSocks4 = new System.Windows.Forms.RadioButton();
+            this.radioBtnSocks5 = new System.Windows.Forms.RadioButton();
+            this.lblProxyType = new System.Windows.Forms.Label();
+            this.radioBtnNo = new System.Windows.Forms.RadioButton();
             this.tabCntrlSettings.SuspendLayout();
             this.tabPgSettingTag.SuspendLayout();
             this.groupBoxChooseTag.SuspendLayout();
             this.tabPgProxy.SuspendLayout();
             this.groupBoxProxy.SuspendLayout();
-            this.groupBoxDescription.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabCntrlSettings
@@ -62,8 +64,9 @@
             this.tabCntrlSettings.Location = new System.Drawing.Point(13, 13);
             this.tabCntrlSettings.Name = "tabCntrlSettings";
             this.tabCntrlSettings.SelectedIndex = 0;
-            this.tabCntrlSettings.Size = new System.Drawing.Size(364, 222);
+            this.tabCntrlSettings.Size = new System.Drawing.Size(364, 322);
             this.tabCntrlSettings.TabIndex = 0;
+            this.tabCntrlSettings.SelectedIndexChanged += new System.EventHandler(this.tabCntrlSettings_SelectedIndexChanged);
             // 
             // tabPgSettingTag
             // 
@@ -72,7 +75,7 @@
             this.tabPgSettingTag.Location = new System.Drawing.Point(4, 22);
             this.tabPgSettingTag.Name = "tabPgSettingTag";
             this.tabPgSettingTag.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPgSettingTag.Size = new System.Drawing.Size(356, 196);
+            this.tabPgSettingTag.Size = new System.Drawing.Size(356, 296);
             this.tabPgSettingTag.TabIndex = 0;
             this.tabPgSettingTag.Text = "Настройка тегов";
             // 
@@ -82,7 +85,7 @@
             this.groupBoxChooseTag.ForeColor = System.Drawing.Color.DarkGray;
             this.groupBoxChooseTag.Location = new System.Drawing.Point(7, 7);
             this.groupBoxChooseTag.Name = "groupBoxChooseTag";
-            this.groupBoxChooseTag.Size = new System.Drawing.Size(343, 183);
+            this.groupBoxChooseTag.Size = new System.Drawing.Size(343, 283);
             this.groupBoxChooseTag.TabIndex = 0;
             this.groupBoxChooseTag.TabStop = false;
             this.groupBoxChooseTag.Text = "Выберите тег";
@@ -108,11 +111,12 @@
             "b"});
             this.checkedListBoxTags.Location = new System.Drawing.Point(7, 20);
             this.checkedListBoxTags.Name = "checkedListBoxTags";
-            this.checkedListBoxTags.Size = new System.Drawing.Size(330, 150);
+            this.checkedListBoxTags.Size = new System.Drawing.Size(330, 255);
             this.checkedListBoxTags.TabIndex = 0;
             // 
             // tabPgProxy
             // 
+            this.tabPgProxy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.tabPgProxy.Controls.Add(this.btnSettingsRemoveAll);
             this.tabPgProxy.Controls.Add(this.btnSettingsOfFile);
             this.tabPgProxy.Controls.Add(this.btnSettingsOfBuffer);
@@ -120,63 +124,68 @@
             this.tabPgProxy.Location = new System.Drawing.Point(4, 22);
             this.tabPgProxy.Name = "tabPgProxy";
             this.tabPgProxy.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPgProxy.Size = new System.Drawing.Size(356, 196);
+            this.tabPgProxy.Size = new System.Drawing.Size(356, 296);
             this.tabPgProxy.TabIndex = 1;
             this.tabPgProxy.Text = "Прокси-сервер";
-            this.tabPgProxy.UseVisualStyleBackColor = true;
             // 
             // btnSettingsRemoveAll
             // 
-            this.btnSettingsRemoveAll.Location = new System.Drawing.Point(264, 167);
+            this.btnSettingsRemoveAll.Location = new System.Drawing.Point(264, 267);
             this.btnSettingsRemoveAll.Name = "btnSettingsRemoveAll";
             this.btnSettingsRemoveAll.Size = new System.Drawing.Size(83, 23);
             this.btnSettingsRemoveAll.TabIndex = 3;
             this.btnSettingsRemoveAll.Text = "Удалить всё";
             this.btnSettingsRemoveAll.UseVisualStyleBackColor = true;
+            this.btnSettingsRemoveAll.Click += new System.EventHandler(this.btnSettingsRemoveAll_Click);
             // 
             // btnSettingsOfFile
             // 
-            this.btnSettingsOfFile.Location = new System.Drawing.Point(133, 167);
+            this.btnSettingsOfFile.Location = new System.Drawing.Point(134, 267);
             this.btnSettingsOfFile.Name = "btnSettingsOfFile";
             this.btnSettingsOfFile.Size = new System.Drawing.Size(75, 23);
             this.btnSettingsOfFile.TabIndex = 2;
             this.btnSettingsOfFile.Text = "Из файла";
             this.btnSettingsOfFile.UseVisualStyleBackColor = true;
+            this.btnSettingsOfFile.Click += new System.EventHandler(this.btnSettingsOfFile_Click);
             // 
             // btnSettingsOfBuffer
             // 
-            this.btnSettingsOfBuffer.Location = new System.Drawing.Point(6, 167);
+            this.btnSettingsOfBuffer.Location = new System.Drawing.Point(6, 267);
             this.btnSettingsOfBuffer.Name = "btnSettingsOfBuffer";
             this.btnSettingsOfBuffer.Size = new System.Drawing.Size(83, 23);
             this.btnSettingsOfBuffer.TabIndex = 1;
             this.btnSettingsOfBuffer.Text = "Из буффера";
             this.btnSettingsOfBuffer.UseVisualStyleBackColor = true;
+            this.btnSettingsOfBuffer.Click += new System.EventHandler(this.btnSettingsOfBuffer_Click);
             // 
             // groupBoxProxy
             // 
-            this.groupBoxProxy.Controls.Add(this.listView1);
+            this.groupBoxProxy.Controls.Add(this.listViewProxy);
+            this.groupBoxProxy.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.groupBoxProxy.Location = new System.Drawing.Point(6, 6);
             this.groupBoxProxy.Name = "groupBoxProxy";
-            this.groupBoxProxy.Size = new System.Drawing.Size(344, 145);
+            this.groupBoxProxy.Size = new System.Drawing.Size(344, 255);
             this.groupBoxProxy.TabIndex = 0;
             this.groupBoxProxy.TabStop = false;
             this.groupBoxProxy.Text = "Прокси";
             // 
-            // listView1
+            // listViewProxy
             // 
-            this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.listViewProxy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
+            this.listViewProxy.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listViewProxy.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnIp,
             this.columnPort,
             this.columnLogin,
             this.columnPassword});
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.Location = new System.Drawing.Point(3, 16);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(338, 126);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.listViewProxy.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listViewProxy.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.listViewProxy.Location = new System.Drawing.Point(3, 16);
+            this.listViewProxy.Name = "listViewProxy";
+            this.listViewProxy.Size = new System.Drawing.Size(338, 236);
+            this.listViewProxy.TabIndex = 0;
+            this.listViewProxy.UseCompatibleStateImageBehavior = false;
+            this.listViewProxy.View = System.Windows.Forms.View.Details;
             // 
             // columnIp
             // 
@@ -198,31 +207,11 @@
             this.columnPassword.Text = "Password";
             this.columnPassword.Width = 105;
             // 
-            // groupBoxDescription
-            // 
-            this.groupBoxDescription.Controls.Add(this.lblDescription);
-            this.groupBoxDescription.ForeColor = System.Drawing.Color.DarkGray;
-            this.groupBoxDescription.Location = new System.Drawing.Point(13, 241);
-            this.groupBoxDescription.Name = "groupBoxDescription";
-            this.groupBoxDescription.Size = new System.Drawing.Size(360, 99);
-            this.groupBoxDescription.TabIndex = 1;
-            this.groupBoxDescription.TabStop = false;
-            this.groupBoxDescription.Text = "Описание";
-            // 
-            // lblDescription
-            // 
-            this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(6, 16);
-            this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(57, 13);
-            this.lblDescription.TabIndex = 2;
-            this.lblDescription.Text = "Описание";
-            // 
             // btnSettingsOk
             // 
             this.btnSettingsOk.Location = new System.Drawing.Point(383, 35);
             this.btnSettingsOk.Name = "btnSettingsOk";
-            this.btnSettingsOk.Size = new System.Drawing.Size(75, 23);
+            this.btnSettingsOk.Size = new System.Drawing.Size(98, 23);
             this.btnSettingsOk.TabIndex = 2;
             this.btnSettingsOk.Text = "OK";
             this.btnSettingsOk.UseVisualStyleBackColor = true;
@@ -232,21 +221,81 @@
             // 
             this.btnSettingsCancel.Location = new System.Drawing.Point(383, 64);
             this.btnSettingsCancel.Name = "btnSettingsCancel";
-            this.btnSettingsCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnSettingsCancel.Size = new System.Drawing.Size(98, 23);
             this.btnSettingsCancel.TabIndex = 3;
             this.btnSettingsCancel.Text = "Отмена";
             this.btnSettingsCancel.UseVisualStyleBackColor = true;
             this.btnSettingsCancel.Click += new System.EventHandler(this.btnSettingsCancel_Click);
+            // 
+            // radioBtnHTTP
+            // 
+            this.radioBtnHTTP.AutoSize = true;
+            this.radioBtnHTTP.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.radioBtnHTTP.Location = new System.Drawing.Point(382, 229);
+            this.radioBtnHTTP.Name = "radioBtnHTTP";
+            this.radioBtnHTTP.Size = new System.Drawing.Size(57, 17);
+            this.radioBtnHTTP.TabIndex = 4;
+            this.radioBtnHTTP.Text = "HTTP ";
+            this.radioBtnHTTP.UseVisualStyleBackColor = true;
+            // 
+            // radioBtnSocks4
+            // 
+            this.radioBtnSocks4.AutoSize = true;
+            this.radioBtnSocks4.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.radioBtnSocks4.Location = new System.Drawing.Point(382, 164);
+            this.radioBtnSocks4.Name = "radioBtnSocks4";
+            this.radioBtnSocks4.Size = new System.Drawing.Size(73, 17);
+            this.radioBtnSocks4.TabIndex = 5;
+            this.radioBtnSocks4.Text = "Socks4(a)";
+            this.radioBtnSocks4.UseVisualStyleBackColor = true;
+            // 
+            // radioBtnSocks5
+            // 
+            this.radioBtnSocks5.AutoSize = true;
+            this.radioBtnSocks5.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.radioBtnSocks5.Location = new System.Drawing.Point(382, 197);
+            this.radioBtnSocks5.Name = "radioBtnSocks5";
+            this.radioBtnSocks5.Size = new System.Drawing.Size(64, 17);
+            this.radioBtnSocks5.TabIndex = 6;
+            this.radioBtnSocks5.Text = "Socks5 ";
+            this.radioBtnSocks5.UseVisualStyleBackColor = true;
+            // 
+            // lblProxyType
+            // 
+            this.lblProxyType.AutoSize = true;
+            this.lblProxyType.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.lblProxyType.Location = new System.Drawing.Point(383, 99);
+            this.lblProxyType.Name = "lblProxyType";
+            this.lblProxyType.Size = new System.Drawing.Size(68, 13);
+            this.lblProxyType.TabIndex = 7;
+            this.lblProxyType.Text = "Тип прокси:";
+            // 
+            // radioBtnNo
+            // 
+            this.radioBtnNo.AutoSize = true;
+            this.radioBtnNo.Checked = true;
+            this.radioBtnNo.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.radioBtnNo.Location = new System.Drawing.Point(382, 129);
+            this.radioBtnNo.Name = "radioBtnNo";
+            this.radioBtnNo.Size = new System.Drawing.Size(113, 17);
+            this.radioBtnNo.TabIndex = 8;
+            this.radioBtnNo.TabStop = true;
+            this.radioBtnNo.Text = "Не использовать";
+            this.radioBtnNo.UseVisualStyleBackColor = true;
             // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.ClientSize = new System.Drawing.Size(470, 347);
+            this.ClientSize = new System.Drawing.Size(493, 347);
+            this.Controls.Add(this.radioBtnNo);
+            this.Controls.Add(this.lblProxyType);
+            this.Controls.Add(this.radioBtnSocks5);
+            this.Controls.Add(this.radioBtnSocks4);
+            this.Controls.Add(this.radioBtnHTTP);
             this.Controls.Add(this.btnSettingsCancel);
             this.Controls.Add(this.btnSettingsOk);
-            this.Controls.Add(this.groupBoxDescription);
             this.Controls.Add(this.tabCntrlSettings);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SettingsForm";
@@ -257,9 +306,8 @@
             this.groupBoxChooseTag.ResumeLayout(false);
             this.tabPgProxy.ResumeLayout(false);
             this.groupBoxProxy.ResumeLayout(false);
-            this.groupBoxDescription.ResumeLayout(false);
-            this.groupBoxDescription.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -270,12 +318,10 @@
         private System.Windows.Forms.TabPage tabPgProxy;
         private System.Windows.Forms.GroupBox groupBoxChooseTag;
         private System.Windows.Forms.CheckedListBox checkedListBoxTags;
-        private System.Windows.Forms.GroupBox groupBoxDescription;
-        private System.Windows.Forms.Label lblDescription;
         private System.Windows.Forms.Button btnSettingsOk;
         private System.Windows.Forms.Button btnSettingsCancel;
         private System.Windows.Forms.GroupBox groupBoxProxy;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView listViewProxy;
         private System.Windows.Forms.Button btnSettingsRemoveAll;
         private System.Windows.Forms.Button btnSettingsOfFile;
         private System.Windows.Forms.Button btnSettingsOfBuffer;
@@ -283,5 +329,10 @@
         private System.Windows.Forms.ColumnHeader columnPort;
         private System.Windows.Forms.ColumnHeader columnLogin;
         private System.Windows.Forms.ColumnHeader columnPassword;
+        private System.Windows.Forms.RadioButton radioBtnHTTP;
+        private System.Windows.Forms.RadioButton radioBtnSocks4;
+        private System.Windows.Forms.RadioButton radioBtnSocks5;
+        private System.Windows.Forms.Label lblProxyType;
+        private System.Windows.Forms.RadioButton radioBtnNo;
     }
 }

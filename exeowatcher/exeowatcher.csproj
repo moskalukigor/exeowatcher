@@ -57,6 +57,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="xNet">
+      <HintPath>..\..\testApplication\testApplication\bin\Debug\xNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="About.cs">
@@ -65,6 +68,8 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="classes\Proxy.cs" />
+    <Compile Include="classes\Settings.cs" />
     <Compile Include="classes\Tags.cs" />
     <Compile Include="Donate.cs">
       <SubType>Form</SubType>

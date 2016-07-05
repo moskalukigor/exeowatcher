@@ -76,16 +76,8 @@ namespace exeowatcher
 
             if (listBoxPages.Items.Count == 0)
             {
-                if (checkValidUrl(page))
-                {
-                    listBoxPages.Items.Add(page);
-                    return;
-                }
-                else
-                {
-                    MessageBox.Show("Некорректный адрес страницы. Пример: http://site.com/page");
-                    return;
-                }
+                listBoxPages.Items.Add(page);
+                return;
             }
 
             for (int i = 0; i < listBoxPages.Items.Count; i++)
@@ -96,16 +88,8 @@ namespace exeowatcher
                 }
                 else
                 {
-                    if (checkValidUrl(page))
-                    {
-                        listBoxPages.Items.Add(page);
-                        return;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Некорректный адрес страницы. Пример: http://site.com/page");
-                        return;
-                    }
+                    listBoxPages.Items.Add(page);
+                    return;
                 }
             }
         }
@@ -117,19 +101,26 @@ namespace exeowatcher
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            if(!checkValidUrl(txtBoxPage.Text))
-            {
-                MessageBox.Show("Некорректный адрес сайта. Пример: http://site.com");
-                return;
-            }
+
             if(listBoxPages.Items.Count == 0)
             {
                 MessageBox.Show("Вы должны добавить хотя бы одну страницу.");
                 return;
             }
 
+            ListView listViewSites = main.getListViewSites();
 
-            for(int i = 0; i < listBoxPages.Items.Count; i++)
+            for (int i = 0; i < listViewSites.Items.Count; i++)
+            {
+                if (listViewSites.Items[i].Text == txtBoxSite.Text)
+                {
+                    MessageBox.Show("Такой сайт уже есть в списке");
+                    return;
+                }
+            }
+
+
+            for (int i = 0; i < listBoxPages.Items.Count; i++)
             {
                 pages.Add(new Page(listBoxPages.Items[i].ToString(), 0));
             }
@@ -152,14 +143,6 @@ namespace exeowatcher
             this.Close();
         }
 
-        private bool checkValidUrl(string uri)
-        {
-            Uri uriResult;
-            bool result = Uri.TryCreate(uri, UriKind.Absolute, out uriResult)
-                && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
-
-            return result;
-        }
 
         private void btnImportOfTxt_Click(object sender, EventArgs e)
         {

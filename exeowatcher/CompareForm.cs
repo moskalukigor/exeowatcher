@@ -64,18 +64,16 @@ namespace exeowatcher
             int countChanges = 0;
             string fileName = main.deleteInvalidChars(page);
             string dirName = main.deleteInvalidChars(site);
-            List<string> textPrevList = main.readFromFile(fileName, dirName);
-            List<string> textCurrList = main.readFromFile(fileName + main.twoFileSuffix, dirName);
-            string textPrev = main.ListToStr(textPrevList);
-            string textCurr = main.ListToStr(textCurrList);
+            string textPrev = main.readFromFile(fileName, dirName);
+            string textCurr = main.readFromFile(fileName + main.twoFileSuffix, dirName);
             string tags_prevText = "";
             string tags_currText = "";
 
             tags_prevText = main.parseHTML(textPrev);
             tags_currText = main.parseHTML(textCurr);
 
-            richTextBoxPrev.Text = main.ListToStr(textPrevList);
-            richTextBoxCurrent.Text = main.ListToStr(textCurrList);
+            richTextBoxPrev.Text = textPrev;
+            richTextBoxCurrent.Text = textCurr;
             richTextBoxCompare.Text = "";
 
             main.compare(this.richTextBoxCompare,ref countChanges, tags_prevText, tags_currText);
