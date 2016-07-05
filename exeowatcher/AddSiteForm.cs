@@ -57,6 +57,18 @@ namespace exeowatcher
             this.Close();
         }
 
+        private void removePage()
+        {
+            ListBox.SelectedObjectCollection selectedItems = new ListBox.SelectedObjectCollection(listBoxPages);
+            selectedItems = listBoxPages.SelectedItems;
+
+            if (listBoxPages.SelectedIndex != -1)
+            {
+                for (int i = selectedItems.Count - 1; i >= 0; i--)
+                    listBoxPages.Items.Remove(selectedItems[i]);
+            }
+        }
+
         private void addPage(string page)
         {
             if (page == "")
@@ -168,6 +180,10 @@ namespace exeowatcher
 
         }
 
+        private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            removePage();
+        }
 
     }
 }

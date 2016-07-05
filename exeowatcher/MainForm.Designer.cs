@@ -41,8 +41,14 @@
             this.помощьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.обратнаяСвязьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.помощьПроектуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.picBoxExeoLogo = new System.Windows.Forms.PictureBox();
+            this.btnImgEdit = new System.Windows.Forms.PictureBox();
+            this.btnImgStart = new System.Windows.Forms.PictureBox();
+            this.btnImgDelete = new System.Windows.Forms.PictureBox();
+            this.btnImgStop = new System.Windows.Forms.PictureBox();
+            this.btnImgAdd = new System.Windows.Forms.PictureBox();
             this.listViewSites = new System.Windows.Forms.ListView();
             this.colProject = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colRecentScan = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -63,25 +69,20 @@
             this.timerBtnAdd = new System.Windows.Forms.Timer(this.components);
             this.timerBtnDelete = new System.Windows.Forms.Timer(this.components);
             this.timerBtnEdit = new System.Windows.Forms.Timer(this.components);
+            this.backgroundWorkerWaitThread = new System.ComponentModel.BackgroundWorker();
             this.openPicBox = new System.Windows.Forms.PictureBox();
             this.createPicBox = new System.Windows.Forms.PictureBox();
-            this.picBoxExeoLogo = new System.Windows.Forms.PictureBox();
-            this.btnImgEdit = new System.Windows.Forms.PictureBox();
-            this.btnImgStart = new System.Windows.Forms.PictureBox();
-            this.btnImgDelete = new System.Windows.Forms.PictureBox();
-            this.btnImgStop = new System.Windows.Forms.PictureBox();
-            this.btnImgAdd = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.openPicBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.createPicBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxExeoLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnImgEdit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnImgStart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnImgDelete)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnImgStop)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnImgAdd)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.openPicBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.createPicBox)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -169,7 +170,7 @@
             this.помощьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.обратнаяСвязьToolStripMenuItem,
             this.помощьПроектуToolStripMenuItem,
-            this.оПрограммеToolStripMenuItem});
+            this.AboutToolStripMenuItem});
             this.помощьToolStripMenuItem.ForeColor = System.Drawing.Color.Gray;
             this.помощьToolStripMenuItem.Name = "помощьToolStripMenuItem";
             this.помощьToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
@@ -191,12 +192,13 @@
             this.помощьПроектуToolStripMenuItem.Text = "Помощь проекту";
             this.помощьПроектуToolStripMenuItem.Click += new System.EventHandler(this.помощьПроектуToolStripMenuItem_Click);
             // 
-            // оПрограммеToolStripMenuItem
+            // AboutToolStripMenuItem
             // 
-            this.оПрограммеToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.оПрограммеToolStripMenuItem.Name = "оПрограммеToolStripMenuItem";
-            this.оПрограммеToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.оПрограммеToolStripMenuItem.Text = "О программе";
+            this.AboutToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
+            this.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem";
+            this.AboutToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.AboutToolStripMenuItem.Text = "О программе";
+            this.AboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
             // panel2
             // 
@@ -210,6 +212,80 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(804, 66);
             this.panel2.TabIndex = 10;
+            // 
+            // picBoxExeoLogo
+            // 
+            this.picBoxExeoLogo.Cursor = System.Windows.Forms.Cursors.Default;
+            this.picBoxExeoLogo.Image = ((System.Drawing.Image)(resources.GetObject("picBoxExeoLogo.Image")));
+            this.picBoxExeoLogo.Location = new System.Drawing.Point(560, -6);
+            this.picBoxExeoLogo.Name = "picBoxExeoLogo";
+            this.picBoxExeoLogo.Size = new System.Drawing.Size(244, 72);
+            this.picBoxExeoLogo.TabIndex = 5;
+            this.picBoxExeoLogo.TabStop = false;
+            // 
+            // btnImgEdit
+            // 
+            this.btnImgEdit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.btnImgEdit.Image = global::exeowatcher.Properties.Resources.edit;
+            this.btnImgEdit.Location = new System.Drawing.Point(361, 8);
+            this.btnImgEdit.Name = "btnImgEdit";
+            this.btnImgEdit.Size = new System.Drawing.Size(195, 50);
+            this.btnImgEdit.TabIndex = 16;
+            this.btnImgEdit.TabStop = false;
+            this.btnImgEdit.Click += new System.EventHandler(this.btnImgEdit_Click);
+            this.btnImgEdit.MouseEnter += new System.EventHandler(this.btnImgEdit_MouseEnter);
+            this.btnImgEdit.MouseLeave += new System.EventHandler(this.btnImgEdit_MouseLeave);
+            // 
+            // btnImgStart
+            // 
+            this.btnImgStart.Image = global::exeowatcher.Properties.Resources.play;
+            this.btnImgStart.Location = new System.Drawing.Point(12, 8);
+            this.btnImgStart.Name = "btnImgStart";
+            this.btnImgStart.Size = new System.Drawing.Size(51, 50);
+            this.btnImgStart.TabIndex = 12;
+            this.btnImgStart.TabStop = false;
+            this.btnImgStart.Click += new System.EventHandler(this.btnImgStart_Click);
+            this.btnImgStart.MouseEnter += new System.EventHandler(this.btnImgStart_MouseEnter);
+            this.btnImgStart.MouseLeave += new System.EventHandler(this.btnImgStart_MouseLeave);
+            // 
+            // btnImgDelete
+            // 
+            this.btnImgDelete.BackgroundImage = global::exeowatcher.Properties.Resources.delete;
+            this.btnImgDelete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.btnImgDelete.Location = new System.Drawing.Point(215, 8);
+            this.btnImgDelete.Name = "btnImgDelete";
+            this.btnImgDelete.Size = new System.Drawing.Size(140, 50);
+            this.btnImgDelete.TabIndex = 15;
+            this.btnImgDelete.TabStop = false;
+            this.btnImgDelete.Click += new System.EventHandler(this.btnImgDelete_Click);
+            this.btnImgDelete.MouseEnter += new System.EventHandler(this.btnImgDelete_MouseEnter);
+            this.btnImgDelete.MouseLeave += new System.EventHandler(this.btnImgDelete_MouseLeave);
+            // 
+            // btnImgStop
+            // 
+            this.btnImgStop.Image = global::exeowatcher.Properties.Resources.stop;
+            this.btnImgStop.Location = new System.Drawing.Point(27, 8);
+            this.btnImgStop.Name = "btnImgStop";
+            this.btnImgStop.Size = new System.Drawing.Size(51, 50);
+            this.btnImgStop.TabIndex = 13;
+            this.btnImgStop.TabStop = false;
+            this.btnImgStop.Visible = false;
+            this.btnImgStop.Click += new System.EventHandler(this.btnImgStop_Click);
+            this.btnImgStop.MouseEnter += new System.EventHandler(this.btnImgStop_MouseEnter);
+            this.btnImgStop.MouseLeave += new System.EventHandler(this.btnImgStop_MouseLeave);
+            // 
+            // btnImgAdd
+            // 
+            this.btnImgAdd.BackgroundImage = global::exeowatcher.Properties.Resources.add;
+            this.btnImgAdd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.btnImgAdd.Location = new System.Drawing.Point(69, 8);
+            this.btnImgAdd.Name = "btnImgAdd";
+            this.btnImgAdd.Size = new System.Drawing.Size(140, 50);
+            this.btnImgAdd.TabIndex = 14;
+            this.btnImgAdd.TabStop = false;
+            this.btnImgAdd.Click += new System.EventHandler(this.btnImgAdd_Click);
+            this.btnImgAdd.MouseEnter += new System.EventHandler(this.btnImgAdd_MouseEnter);
+            this.btnImgAdd.MouseLeave += new System.EventHandler(this.btnImgAdd_MouseLeave);
             // 
             // listViewSites
             // 
@@ -327,9 +403,13 @@
             // 
             this.timerBtnEdit.Tick += new System.EventHandler(this.timerBtnEdit_Tick);
             // 
+            // backgroundWorkerWaitThread
+            // 
+            this.backgroundWorkerWaitThread.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerWaitThread_DoWork);
+            // 
             // openPicBox
             // 
-            this.openPicBox.Image = global::exeowatcher.Properties.Resources.Open;
+            this.openPicBox.BackgroundImage = global::exeowatcher.Properties.Resources.Open;
             this.openPicBox.Location = new System.Drawing.Point(12, 209);
             this.openPicBox.Name = "openPicBox";
             this.openPicBox.Size = new System.Drawing.Size(135, 50);
@@ -339,7 +419,7 @@
             // 
             // createPicBox
             // 
-            this.createPicBox.Image = global::exeowatcher.Properties.Resources.create;
+            this.createPicBox.BackgroundImage = global::exeowatcher.Properties.Resources.create;
             this.createPicBox.Location = new System.Drawing.Point(12, 138);
             this.createPicBox.Name = "createPicBox";
             this.createPicBox.Size = new System.Drawing.Size(135, 50);
@@ -347,86 +427,12 @@
             this.createPicBox.TabStop = false;
             this.createPicBox.Click += new System.EventHandler(this.createBicBox_Click);
             // 
-            // picBoxExeoLogo
-            // 
-            this.picBoxExeoLogo.Cursor = System.Windows.Forms.Cursors.Default;
-            this.picBoxExeoLogo.Image = ((System.Drawing.Image)(resources.GetObject("picBoxExeoLogo.Image")));
-            this.picBoxExeoLogo.Location = new System.Drawing.Point(560, -6);
-            this.picBoxExeoLogo.Name = "picBoxExeoLogo";
-            this.picBoxExeoLogo.Size = new System.Drawing.Size(244, 72);
-            this.picBoxExeoLogo.TabIndex = 5;
-            this.picBoxExeoLogo.TabStop = false;
-            // 
-            // btnImgEdit
-            // 
-            this.btnImgEdit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.btnImgEdit.Image = global::exeowatcher.Properties.Resources.edit;
-            this.btnImgEdit.Location = new System.Drawing.Point(409, 8);
-            this.btnImgEdit.Name = "btnImgEdit";
-            this.btnImgEdit.Size = new System.Drawing.Size(145, 50);
-            this.btnImgEdit.TabIndex = 16;
-            this.btnImgEdit.TabStop = false;
-            this.btnImgEdit.Click += new System.EventHandler(this.btnImgEdit_Click);
-            this.btnImgEdit.MouseEnter += new System.EventHandler(this.btnImgEdit_MouseEnter);
-            this.btnImgEdit.MouseLeave += new System.EventHandler(this.btnImgEdit_MouseLeave);
-            // 
-            // btnImgStart
-            // 
-            this.btnImgStart.Image = global::exeowatcher.Properties.Resources.play;
-            this.btnImgStart.Location = new System.Drawing.Point(3, 8);
-            this.btnImgStart.Name = "btnImgStart";
-            this.btnImgStart.Size = new System.Drawing.Size(51, 50);
-            this.btnImgStart.TabIndex = 12;
-            this.btnImgStart.TabStop = false;
-            this.btnImgStart.Click += new System.EventHandler(this.btnImgStart_Click);
-            this.btnImgStart.MouseEnter += new System.EventHandler(this.btnImgStart_MouseEnter);
-            this.btnImgStart.MouseLeave += new System.EventHandler(this.btnImgStart_MouseLeave);
-            // 
-            // btnImgDelete
-            // 
-            this.btnImgDelete.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.btnImgDelete.Image = global::exeowatcher.Properties.Resources.delete;
-            this.btnImgDelete.Location = new System.Drawing.Point(263, 8);
-            this.btnImgDelete.Name = "btnImgDelete";
-            this.btnImgDelete.Size = new System.Drawing.Size(140, 50);
-            this.btnImgDelete.TabIndex = 15;
-            this.btnImgDelete.TabStop = false;
-            this.btnImgDelete.Click += new System.EventHandler(this.btnImgDelete_Click);
-            this.btnImgDelete.MouseEnter += new System.EventHandler(this.btnImgDelete_MouseEnter);
-            this.btnImgDelete.MouseLeave += new System.EventHandler(this.btnImgDelete_MouseLeave);
-            // 
-            // btnImgStop
-            // 
-            this.btnImgStop.Image = global::exeowatcher.Properties.Resources.stop;
-            this.btnImgStop.Location = new System.Drawing.Point(60, 8);
-            this.btnImgStop.Name = "btnImgStop";
-            this.btnImgStop.Size = new System.Drawing.Size(51, 50);
-            this.btnImgStop.TabIndex = 13;
-            this.btnImgStop.TabStop = false;
-            this.btnImgStop.Click += new System.EventHandler(this.btnImgStop_Click);
-            this.btnImgStop.MouseEnter += new System.EventHandler(this.btnImgStop_MouseEnter);
-            this.btnImgStop.MouseLeave += new System.EventHandler(this.btnImgStop_MouseLeave);
-            // 
-            // btnImgAdd
-            // 
-            this.btnImgAdd.BackgroundImage = global::exeowatcher.Properties.Resources.add;
-            this.btnImgAdd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.btnImgAdd.Image = global::exeowatcher.Properties.Resources.add;
-            this.btnImgAdd.Location = new System.Drawing.Point(117, 8);
-            this.btnImgAdd.Name = "btnImgAdd";
-            this.btnImgAdd.Size = new System.Drawing.Size(140, 50);
-            this.btnImgAdd.TabIndex = 14;
-            this.btnImgAdd.TabStop = false;
-            this.btnImgAdd.Click += new System.EventHandler(this.btnImgAdd_Click);
-            this.btnImgAdd.MouseEnter += new System.EventHandler(this.btnImgAdd_MouseEnter);
-            this.btnImgAdd.MouseLeave += new System.EventHandler(this.btnImgAdd_MouseLeave);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.ClientSize = new System.Drawing.Size(816, 566);
+            this.ClientSize = new System.Drawing.Size(816, 549);
             this.Controls.Add(this.openPicBox);
             this.Controls.Add(this.createPicBox);
             this.Controls.Add(this.listViewSites);
@@ -441,15 +447,15 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel2.ResumeLayout(false);
-            this.contextMenuStrip1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.openPicBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.createPicBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxExeoLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnImgEdit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnImgStart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnImgDelete)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnImgStop)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnImgAdd)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.openPicBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.createPicBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -467,7 +473,7 @@
         private System.Windows.Forms.ToolStripMenuItem помощьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem обратнаяСвязьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem помощьПроектуToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem оПрограммеToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AboutToolStripMenuItem;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox picBoxExeoLogo;
         private System.Windows.Forms.ColumnHeader colRecentScan;
@@ -497,6 +503,7 @@
         private System.Windows.Forms.ColumnHeader colProject;
         private System.Windows.Forms.PictureBox createPicBox;
         private System.Windows.Forms.PictureBox openPicBox;
+        private System.ComponentModel.BackgroundWorker backgroundWorkerWaitThread;
     }
 }
 

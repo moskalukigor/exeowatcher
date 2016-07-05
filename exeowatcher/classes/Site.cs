@@ -11,19 +11,19 @@ namespace exeowatcher.classes
         public string site;
         public DateTime latestScan;
         public List<Page> pages = new List<Page>();
-        public Tags tags = new Tags();
+        //public Tags tags = new Tags();
 
         public Site()
         {
             
         }
 
-        public Site(string site, DateTime latestScan, int countPages, List<Page> pages, Tags tags)
+        public Site(string site, DateTime latestScan, int countPages, List<Page> pages)//, Tags tags)
         {
             this.site = site;
             this.latestScan = latestScan;
             this.pages = pages;
-            this.tags = tags;
+            //this.tags = tags;
         }
     }
 }

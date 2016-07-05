@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddSiteForm));
             this.groupBoxSite = new System.Windows.Forms.GroupBox();
             this.txtBoxSite = new System.Windows.Forms.TextBox();
@@ -41,10 +42,13 @@
             this.btnImportOfSiteMap = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxSite.SuspendLayout();
             this.groupBoxPages.SuspendLayout();
             this.groupBoxAddPage.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBoxSite
@@ -67,6 +71,7 @@
             this.txtBoxSite.Name = "txtBoxSite";
             this.txtBoxSite.Size = new System.Drawing.Size(273, 20);
             this.txtBoxSite.TabIndex = 0;
+            this.txtBoxSite.Text = "http://";
             this.txtBoxSite.TextChanged += new System.EventHandler(this.txtBoxSite_TextChanged);
             // 
             // groupBoxPages
@@ -75,7 +80,7 @@
             this.groupBoxPages.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.groupBoxPages.Location = new System.Drawing.Point(12, 73);
             this.groupBoxPages.Name = "groupBoxPages";
-            this.groupBoxPages.Size = new System.Drawing.Size(287, 156);
+            this.groupBoxPages.Size = new System.Drawing.Size(287, 181);
             this.groupBoxPages.TabIndex = 1;
             this.groupBoxPages.TabStop = false;
             this.groupBoxPages.Text = "Страницы";
@@ -84,11 +89,12 @@
             // 
             this.listBoxPages.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
             this.listBoxPages.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.listBoxPages.ContextMenuStrip = this.contextMenuStrip;
             this.listBoxPages.ForeColor = System.Drawing.Color.DarkGray;
             this.listBoxPages.FormattingEnabled = true;
-            this.listBoxPages.Location = new System.Drawing.Point(7, 20);
+            this.listBoxPages.Location = new System.Drawing.Point(6, 21);
             this.listBoxPages.Name = "listBoxPages";
-            this.listBoxPages.Size = new System.Drawing.Size(273, 119);
+            this.listBoxPages.Size = new System.Drawing.Size(273, 145);
             this.listBoxPages.TabIndex = 0;
             // 
             // groupBoxAddPage
@@ -96,7 +102,7 @@
             this.groupBoxAddPage.Controls.Add(this.btnAddPage);
             this.groupBoxAddPage.Controls.Add(this.txtBoxPage);
             this.groupBoxAddPage.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBoxAddPage.Location = new System.Drawing.Point(13, 236);
+            this.groupBoxAddPage.Location = new System.Drawing.Point(13, 261);
             this.groupBoxAddPage.Name = "groupBoxAddPage";
             this.groupBoxAddPage.Size = new System.Drawing.Size(279, 53);
             this.groupBoxAddPage.TabIndex = 2;
@@ -123,13 +129,14 @@
             this.txtBoxPage.Name = "txtBoxPage";
             this.txtBoxPage.Size = new System.Drawing.Size(192, 20);
             this.txtBoxPage.TabIndex = 0;
+            this.txtBoxPage.Text = "http://";
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.btnImportOfTxt);
             this.groupBox1.Controls.Add(this.btnImportOfSiteMap);
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.groupBox1.Location = new System.Drawing.Point(13, 296);
+            this.groupBox1.Location = new System.Drawing.Point(13, 321);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(279, 51);
             this.groupBox1.TabIndex = 3;
@@ -159,7 +166,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(152, 353);
+            this.btnCancel.Location = new System.Drawing.Point(152, 378);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(140, 34);
             this.btnCancel.TabIndex = 4;
@@ -169,7 +176,7 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(12, 353);
+            this.btnOk.Location = new System.Drawing.Point(12, 378);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(134, 34);
             this.btnOk.TabIndex = 5;
@@ -177,12 +184,26 @@
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
+            // contextMenuStrip
+            // 
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.удалитьToolStripMenuItem});
+            this.contextMenuStrip.Name = "contextMenuStrip";
+            this.contextMenuStrip.Size = new System.Drawing.Size(119, 26);
+            // 
+            // удалитьToolStripMenuItem
+            // 
+            this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.удалитьToolStripMenuItem.Text = "Удалить";
+            this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.удалитьToolStripMenuItem_Click);
+            // 
             // AddSiteForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(47)))), ((int)(((byte)(47)))));
-            this.ClientSize = new System.Drawing.Size(304, 399);
+            this.ClientSize = new System.Drawing.Size(304, 423);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.groupBox1);
@@ -199,6 +220,7 @@
             this.groupBoxAddPage.ResumeLayout(false);
             this.groupBoxAddPage.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -217,5 +239,7 @@
         private System.Windows.Forms.Button btnImportOfSiteMap;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
     }
 }
