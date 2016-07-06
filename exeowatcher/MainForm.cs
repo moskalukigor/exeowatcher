@@ -26,11 +26,13 @@ namespace exeowatcher
         List<Site> sites = new List<Site>();
         public List<Proxy> proxys = new List<Proxy>();
         public List<string> tags = new List<string>();
+        public string typeProxy;
         public string twoFileSuffix = "_2";
         public string saveDir = "saved";
         private string nameLastSave = "";
         public int countSource = 0;
         public int counterAcc = -1;
+        public int counterProxy = 0;
         private bool isRunning = false;
 
 
@@ -63,6 +65,7 @@ namespace exeowatcher
 
                 tags = settings.tags;
                 proxys = settings.proxys;
+                typeProxy = settings.typeProxy;
                 
             }
 
@@ -84,10 +87,31 @@ namespace exeowatcher
             using (var request = new HttpRequest())
             {
                 request.UserAgent = Http.ChromeUserAgent();
+
+                if (typeProxy != "none" && proxys.Count > 0)
+                {
+                    string proxy = "";
+                    if (proxys[counterProxy].login != null)
+                        proxy = String.Format("{0}:{1}:{2}:{3}", proxys[counterProxy].ip, proxys[counterProxy].port, proxys[counterProxy].login, proxys[counterProxy].password);
+                    else
+                        proxy = String.Format("{0}:{1}", proxys[counterProxy].ip, proxys[counterProxy].port);
+
+                    switch (typeProxy)
+                    {
+                        case "HTTP": request.Proxy = HttpProxyClient.Parse(proxy); counterProxy++;      break;
+                        case "Socks4": request.Proxy = Socks4ProxyClient.Parse(proxy); counterProxy++;  break;
+                        case "Socks5": request.Proxy = Socks5ProxyClient.Parse(proxy); counterProxy++;  break;
+                    }
+                    if (counterProxy == proxys.Count)
+                        counterProxy = 0;
+                }
+
                 HttpResponse response;
                 string content = "";
                 try
                 {
+                    if (request.Proxy != null)
+                        MessageBox.Show("Используется прокси: " + proxys[counterProxy-1].ip + ":" + proxys[counterProxy-1].port);
                     response = request.Get(urlAddress);
                     content = response.ToString();
                     return content;
@@ -493,7 +517,7 @@ namespace exeowatcher
 
         private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SettingsForm sf = new SettingsForm(tags, proxys);
+            SettingsForm sf = new SettingsForm(tags, proxys, typeProxy);
             sf.Owner = this;
             sf.Show();
         }
@@ -560,7 +584,6 @@ namespace exeowatcher
             base.OnPaint(e);
         }
 
-
         void DoWork(object data)
         {
             Data dt = (Data)data;
@@ -573,10 +596,13 @@ namespace exeowatcher
             //------------------------------------------WARNING----------------------------------------
             //------------------------------------------WARNING----------------------------------------
             //------------------------------------------WARNING----------------------------------------
+
+
             var indexItemList = listViewSites.FindItemWithText(sites[dt.i].site);
             if (indexItemList != null)
                 preparationToWrite(sites[dt.i].pages[dt.j].pageName, indexItemList.Index);
         }
+
 
         #region Buttons
 
@@ -624,6 +650,7 @@ namespace exeowatcher
 
             thread = new List<Thread>();
 
+
             for (int i = 0; i < listViewSites.Items.Count; i++)
             {
                 if (!listViewSites.Items[i].Checked)
@@ -632,16 +659,20 @@ namespace exeowatcher
                 }
                 for (int j = 0; j < sites[i].pages.Count; j++)
                 {
-                    
                     Data dt = new Data();
                     dt.i = i;
                     dt.j = j;
 
                     thread.Add(new Thread(new ParameterizedThreadStart(DoWork)));
-                    if(thread[j] != null && thread[j].IsAlive == false)
+                    if (thread[j] != null && thread[j].IsAlive == false)
                         thread[j].Start(dt);
                 }
             }
+
+                    
+              
+
+            
 
 
 
@@ -651,7 +682,6 @@ namespace exeowatcher
 
 
         }
-
 
         private void btnImgStop_Click(object sender, EventArgs e)
         {
@@ -726,7 +756,6 @@ namespace exeowatcher
                 }
             }
         }
-
 
         private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -843,7 +872,6 @@ namespace exeowatcher
             }
         }
 
-
         #endregion
 
         #region Timers
@@ -883,9 +911,6 @@ namespace exeowatcher
         private void timerBtnEdit_Tick(object sender, EventArgs e) { timerTick(timerBtnEdit, btnImgEdit); }
         #endregion
 
-
-        
-
         private void createBicBox_Click(object sender, EventArgs e)
         {
             createPicBox.Visible = false;
@@ -900,7 +925,6 @@ namespace exeowatcher
             sites = new List<Site>();
             listViewSites.Items.Clear();
         }
-
 
         private void backgroundWorkerWaitThread_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
@@ -926,7 +950,6 @@ namespace exeowatcher
             btnImgStart.Image = Properties.Resources.play; // Смена кнопки стоп на плэй
             isRunning = false;
         }
-
 
     }
 

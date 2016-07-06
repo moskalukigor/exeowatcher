@@ -237,6 +237,7 @@
             this.radioBtnHTTP.TabIndex = 4;
             this.radioBtnHTTP.Text = "HTTP ";
             this.radioBtnHTTP.UseVisualStyleBackColor = true;
+            this.radioBtnHTTP.CheckedChanged += new System.EventHandler(this.radioBtnHTTP_CheckedChanged);
             // 
             // radioBtnSocks4
             // 
@@ -244,10 +245,11 @@
             this.radioBtnSocks4.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.radioBtnSocks4.Location = new System.Drawing.Point(382, 164);
             this.radioBtnSocks4.Name = "radioBtnSocks4";
-            this.radioBtnSocks4.Size = new System.Drawing.Size(73, 17);
+            this.radioBtnSocks4.Size = new System.Drawing.Size(61, 17);
             this.radioBtnSocks4.TabIndex = 5;
-            this.radioBtnSocks4.Text = "Socks4(a)";
+            this.radioBtnSocks4.Text = "Socks4";
             this.radioBtnSocks4.UseVisualStyleBackColor = true;
+            this.radioBtnSocks4.CheckedChanged += new System.EventHandler(this.radioBtnSocks4_CheckedChanged);
             // 
             // radioBtnSocks5
             // 
@@ -259,6 +261,7 @@
             this.radioBtnSocks5.TabIndex = 6;
             this.radioBtnSocks5.Text = "Socks5 ";
             this.radioBtnSocks5.UseVisualStyleBackColor = true;
+            this.radioBtnSocks5.CheckedChanged += new System.EventHandler(this.radioBtnSocks5_CheckedChanged);
             // 
             // lblProxyType
             // 

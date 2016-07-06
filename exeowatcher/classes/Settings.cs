@@ -10,6 +10,7 @@ namespace exeowatcher.classes
     {
         public List<string> tags;
         public List<Proxy> proxys;
+        public string typeProxy;
 
 
         public Settings()
@@ -17,10 +18,11 @@ namespace exeowatcher.classes
 
         }
 
-        public Settings(List<string> tags, List<Proxy> proxys)
+        public Settings(List<string> tags, List<Proxy> proxys, string typeProxy)
         {
             this.tags = tags;
             this.proxys = proxys;
+            this.typeProxy = typeProxy;
         }
     }
 }

@@ -12,18 +12,20 @@ namespace exeowatcher.classes
         public int port;
         public string login;
         public string password;
+        public string type;
 
         public Proxy()
         {
 
         }
 
-        public Proxy(string ip, int port, string login, string password)
+        public Proxy(string ip, int port, string login, string password, string type)
         {
             this.ip = ip;
             this.port = port;
             this.login = login;
             this.password = password;
+            this.type = type;
         }
     }
 }

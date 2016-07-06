@@ -21,6 +21,7 @@ namespace exeowatcher
 
         private List<string> tags = new List<string>();
         private List<Proxy> proxys = new List<Proxy>();
+        private string typeProxy;
         MainForm main;
 
 
@@ -29,13 +30,13 @@ namespace exeowatcher
             InitializeComponent();
         }
 
-        public SettingsForm(List<string> tags, List<Proxy> proxys)
+        public SettingsForm(List<string> tags, List<Proxy> proxys, string typeProxy)
         {
             this.proxys = proxys;
             this.tags = tags;
+            this.typeProxy = typeProxy;
             InitializeComponent();
-            fillCheckBoxList();
-            fillProxyList();
+            
 
         }
 
@@ -43,6 +44,8 @@ namespace exeowatcher
     private void SettingsForm_Load(object sender, EventArgs e)
         {
             main = this.Owner as MainForm;
+            fillCheckBoxList();
+            fillProxyList();
             lblProxyType.Visible = false;
             radioBtnHTTP.Visible = false;
             radioBtnNo.Visible = false;
@@ -74,6 +77,16 @@ namespace exeowatcher
             {
                 listViewProxy.Items.Add(new ListViewItem(new string[] { proxys[i].ip, proxys[i].port.ToString(), proxys[i].login, proxys[i].password }));
             }
+
+            switch(typeProxy)
+            {
+                case "HTTP": radioBtnHTTP.Checked = true;
+                    break;
+                case "Socks4": radioBtnSocks4.Checked = true;
+                    break;
+                case "Socks5": radioBtnSocks5.Checked = true;
+                    break;
+            }
         }
 
         private void addProxy(string host, string port, string username, string password)
@@ -83,6 +96,7 @@ namespace exeowatcher
 
             if (listViewProxy.Items.Count == 0)
             {
+                proxys.Add(new Proxy(host, Convert.ToInt32(port), username, password, ""));
                 listViewProxy.Items.Add(new ListViewItem(new string[] { host, port, username, password }));
                 return;
             }
@@ -95,7 +109,7 @@ namespace exeowatcher
                 }
 
             }
-            proxys.Add(new Proxy(host, Convert.ToInt32(port), username, password));
+            proxys.Add(new Proxy(host, Convert.ToInt32(port), username, password, ""));
             listViewProxy.Items.Add(new ListViewItem(new string[] { host, port, username, password }));
 
         }
@@ -122,11 +136,25 @@ namespace exeowatcher
                     return;
                 }
 
-                main.proxys = new List<Proxy>();
-                for (int i = 0; i < proxys.Count; i++)
+                string type = "";
+
+                if (radioBtnHTTP.Checked)
+                    type = "HTTP";
+
+                if (radioBtnSocks4.Checked)
+                    type = "Socks4";
+
+                if (radioBtnSocks5.Checked)
+                    type = "Socks5";
+                
+
+                if (!checkAllProxyOfType())
                 {
-                    main.proxys.Add(new Proxy(proxys[i].ip, proxys[i].port, proxys[i].login, proxys[i].password));
+                    setTypeProxy(type);
                 }
+
+                main.proxys = new List<Proxy>();
+                main.proxys = proxys;
 
             }
             else if( listViewProxy.Items.Count > 0 )
@@ -144,6 +172,16 @@ namespace exeowatcher
                 {
                     return;
                 }
+                else
+                {
+                    main.typeProxy = "none";
+                    main.proxys = new List<Proxy>();
+                }
+            }
+            else
+            {
+                main.proxys = new List<Proxy>();
+                main.proxys = proxys;
             }
 
             main.tags = new List<string>();
@@ -154,7 +192,7 @@ namespace exeowatcher
 
 
 
-            Settings settings = new Settings(main.tags, main.proxys);
+            Settings settings = new Settings(main.tags, main.proxys, main.typeProxy);
             string json = JsonConvert.SerializeObject(settings, Formatting.Indented);
             File.WriteAllText("settings.json", json);
 
@@ -163,6 +201,8 @@ namespace exeowatcher
 
         private void btnSettingsRemoveAll_Click(object sender, EventArgs e)
         {
+            radioBtnNo.Checked = true;
+            proxys = new List<Proxy>();
             listViewProxy.Items.Clear();
         }
 
@@ -177,6 +217,7 @@ namespace exeowatcher
             if (openFileDialog.FileName == "")
                 return;
 
+
             using (StreamReader reader = new StreamReader(openFileDialog.FileName))
             {
                 while (!reader.EndOfStream)
@@ -190,6 +231,8 @@ namespace exeowatcher
 
         private void btnSettingsOfBuffer_Click(object sender, EventArgs e)
         {
+
+
             List<string> result = Clipboard.GetText().Split('\n').ToList();
             for(int i = 0; i < result.Count; i++)
             {
@@ -220,6 +263,43 @@ namespace exeowatcher
                 radioBtnSocks4.Visible = false;
                 radioBtnSocks5.Visible = false;
             }
+        }
+
+        public bool checkAllProxyOfType()
+        {
+            bool result = true;
+
+            for(int i = 0; i < proxys.Count; i++)
+            {
+                if (proxys[i].type == "")
+                    result = false;
+            }
+
+            return result;
+        }
+
+        public void setTypeProxy(string type)
+        {
+            for(int i = 0; i < proxys.Count; i++)
+            {
+                proxys[i].type = type;
+            }
+            main.typeProxy = type;
+        }
+
+        private void radioBtnSocks4_CheckedChanged(object sender, EventArgs e)
+        {
+            setTypeProxy("Socks4");
+        }
+
+        private void radioBtnSocks5_CheckedChanged(object sender, EventArgs e)
+        {
+            setTypeProxy("Socks5");
+        }
+
+        private void radioBtnHTTP_CheckedChanged(object sender, EventArgs e)
+        {
+            setTypeProxy("HTTP");
         }
     }
 }
