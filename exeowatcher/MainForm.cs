@@ -34,11 +34,12 @@ namespace exeowatcher
         public int counterAcc = -1;
         public int counterProxy = 0;
         private bool isRunning = false;
+        public Point mouse_offset;
 
 
         //Анимация цвета кнопок
         Color oldColor;
-        Color newColor = Color.FromArgb(0, Color.Moccasin);
+        Color newColor = Color.FromArgb(0, Color.Black);
         int alpha = 0;
 
         public MainForm()
@@ -111,7 +112,7 @@ namespace exeowatcher
                 try
                 {
                     if (request.Proxy != null)
-                        MessageBox.Show("Используется прокси: " + proxys[counterProxy-1].ip + ":" + proxys[counterProxy-1].port);
+                        MessageBox.Show("(TEST, потом уберётся)Используется прокси: " + proxys[counterProxy-1].ip + ":" + proxys[counterProxy-1].port);
                     response = request.Get(urlAddress);
                     content = response.ToString();
                     return content;
@@ -229,7 +230,7 @@ namespace exeowatcher
 
         public void compareCode(string parentDir, string fileName, int indexPage, int indexList)
         {
-            if(parentDir == null || fileName == "")
+            if(parentDir == null && fileName == "")
             {
                 return;
             }
@@ -554,20 +555,19 @@ namespace exeowatcher
                     fileName = deleteInvalidChars(sites[indexList].pages[index].pageName);
                     string parentDir = deleteInvalidChars(sites[indexList].site);
 
-                    if (indexItemList != null)
-                        compareCode(parentDir, fileName, index, indexList);
-                }
-            }
 
-            string json = JsonConvert.SerializeObject(sites, Formatting.Indented);
-            File.WriteAllText("info.json", json);
-            
+                    string json = JsonConvert.SerializeObject(sites, Formatting.Indented);
+                    File.WriteAllText("info.json", json);
+
 
                     fileName = deleteInvalidChars(sites[indexList].pages[0].pageName);
                     string dirName = deleteInvalidChars(sites[indexList].site);
 
                     if (File.Exists(dirName + "/" + fileName + ".txt") && File.Exists(dirName + "/" + fileName + twoFileSuffix + ".txt"))
                     {
+                        if (indexItemList != null)
+                            compareCode(parentDir, fileName, index, indexList);
+
                         CompareForm cf = new CompareForm(sites[indexList].site);
                         cf.Owner = this;
                         cf.Show();
@@ -576,7 +576,14 @@ namespace exeowatcher
                     {
                         MessageBox.Show("Сначала просканируйте сайт, чтобы посмотреть различия");
                         return;
-                    }       
+                    }
+
+
+                    
+                }
+            }
+
+                 
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -949,6 +956,57 @@ namespace exeowatcher
             //MessageBox.Show("Потоки завершили свою работу, можно менять кнопку");
             btnImgStart.Image = Properties.Resources.play; // Смена кнопки стоп на плэй
             isRunning = false;
+        }
+
+        private void materialFlatBtnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void materialFlatBtnHide_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;   
+        }
+
+        private void MainForm_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouse_offset = new Point(-e.X, -e.Y);
+        }
+
+        private void MainForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                  Point mousePos = Control.MousePosition;
+                  mousePos.Offset(mouse_offset.X, mouse_offset.Y);
+                  Location = mousePos;
+            }
+        }
+
+        private void materialFlatBtnMax_Click(object sender, EventArgs e)
+        {
+            if (materialFlatBtnMax.Text == "❐")
+            {
+                this.WindowState = FormWindowState.Maximized;
+                materialFlatBtnMax.Text = "◱";
+            }
+            else
+            {
+                this.WindowState = FormWindowState.Normal;
+                materialFlatBtnMax.Text = "❐";
+            }
+        }
+
+        private void listViewSites_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (listViewSites.SelectedItems.Count == 1)
+            {
+                ListView.SelectedListViewItemCollection items = listViewSites.SelectedItems;
+
+                ListViewItem lvItem = items[0];
+                string what = lvItem.Text;
+                MessageBox.Show(what);
+            }
         }
 
     }

@@ -97,6 +97,7 @@ namespace exeowatcher
         private void btnAddPage_Click(object sender, EventArgs e)
         {
             addPage(txtBoxPage.Text);
+            txtBoxPage.Text = "";
         }
 
         private void btnOk_Click(object sender, EventArgs e)

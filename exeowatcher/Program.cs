@@ -17,6 +17,17 @@ namespace exeowatcher
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            Start start = new Start();
+            DateTime end = DateTime.Now + TimeSpan.FromSeconds(3);
+            start.Show();
+            while(end > DateTime.Now)
+            {
+                Application.DoEvents();
+            }
+            start.Close();
+            start.Dispose();
+
             Application.Run(new MainForm());
         }
     }

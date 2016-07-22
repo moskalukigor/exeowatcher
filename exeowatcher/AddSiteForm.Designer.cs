@@ -34,6 +34,8 @@
             this.txtBoxSite = new System.Windows.Forms.TextBox();
             this.groupBoxPages = new System.Windows.Forms.GroupBox();
             this.listBoxPages = new System.Windows.Forms.ListBox();
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxAddPage = new System.Windows.Forms.GroupBox();
             this.btnAddPage = new System.Windows.Forms.Button();
             this.txtBoxPage = new System.Windows.Forms.TextBox();
@@ -42,13 +44,11 @@
             this.btnImportOfSiteMap = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
-            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxSite.SuspendLayout();
             this.groupBoxPages.SuspendLayout();
+            this.contextMenuStrip.SuspendLayout();
             this.groupBoxAddPage.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBoxSite
@@ -96,6 +96,20 @@
             this.listBoxPages.Name = "listBoxPages";
             this.listBoxPages.Size = new System.Drawing.Size(273, 145);
             this.listBoxPages.TabIndex = 0;
+            // 
+            // contextMenuStrip
+            // 
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.удалитьToolStripMenuItem});
+            this.contextMenuStrip.Name = "contextMenuStrip";
+            this.contextMenuStrip.Size = new System.Drawing.Size(119, 26);
+            // 
+            // удалитьToolStripMenuItem
+            // 
+            this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
+            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.удалитьToolStripMenuItem.Text = "Удалить";
+            this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.удалитьToolStripMenuItem_Click);
             // 
             // groupBoxAddPage
             // 
@@ -184,20 +198,6 @@
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
-            // contextMenuStrip
-            // 
-            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.удалитьToolStripMenuItem});
-            this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(119, 26);
-            // 
-            // удалитьToolStripMenuItem
-            // 
-            this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
-            this.удалитьToolStripMenuItem.Text = "Удалить";
-            this.удалитьToolStripMenuItem.Click += new System.EventHandler(this.удалитьToolStripMenuItem_Click);
-            // 
             // AddSiteForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -217,10 +217,10 @@
             this.groupBoxSite.ResumeLayout(false);
             this.groupBoxSite.PerformLayout();
             this.groupBoxPages.ResumeLayout(false);
+            this.contextMenuStrip.ResumeLayout(false);
             this.groupBoxAddPage.ResumeLayout(false);
             this.groupBoxAddPage.PerformLayout();
             this.groupBox1.ResumeLayout(false);
-            this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
